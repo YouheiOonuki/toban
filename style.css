@@ -1,5 +1,5 @@
 /* ===========================
-   __TITLE__ — yorozu-craft 共通の和紙風の配色
+   当番表・グループ分け — yorozu-craft 共通の和紙風の配色
    色はトークン（--bg / --card / --text / --muted / --accent / --border）だけを使う。
    ダークモードは端末の設定に自動で合わせる（prefers-color-scheme。手動切替は付けない）
    =========================== */
@@ -200,4 +200,91 @@ details > summary:focus-visible { outline: 2px solid var(--accent); outline-offs
   .layout-2col .result-card { position: static; max-height: none; overflow: visible; }
   /* 広告は印刷に出さない（gakushu-print と同じ） */
   ins.adsbygoogle, .google-auto-placed, iframe[id^="aswift"], iframe[id^="google_ads"] { display: none !important; }
+}
+
+/* ===========================
+   当番表・グループ分け
+   =========================== */
+textarea {
+  width: 100%; padding: 0.45rem 0.5rem; font: inherit; font-size: 1rem; line-height: 1.5;
+  border: 1px solid var(--border); border-radius: 6px; background: var(--card); color: var(--text); resize: vertical;
+}
+.field input[type="date"] {
+  width: 100%; max-width: 16rem; padding: 0.4rem 0.5rem; font: inherit; font-size: 1rem;
+  border: 1px solid var(--border); border-radius: 6px; background: var(--card); color: var(--text); min-height: 44px;
+}
+.field .label, fieldset.plain > legend { display: block; font-weight: 600; font-size: 0.95rem; margin-bottom: 0.25rem; }
+fieldset.plain { border: none; padding: 0; min-width: 0; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 0 0.9rem; }
+@media (max-width: 480px) { .two:not(.dates) { grid-template-columns: 1fr; } }
+.hint { font-size: 0.8rem; color: var(--muted); }
+.center { text-align: center; }
+.check { display: flex; align-items: center; gap: 0.45rem; min-height: 44px; font-size: 0.92rem; cursor: pointer; }
+.check input { width: 1.15rem; height: 1.15rem; flex: none; accent-color: var(--accent); }
+.seg { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; }
+.seg label { display: flex; align-items: center; gap: 0.35rem; min-height: 44px; font-size: 0.92rem; cursor: pointer; }
+.seg input { accent-color: var(--accent); width: 1.1rem; height: 1.1rem; }
+.days { display: flex; flex-wrap: wrap; gap: 0 0.3rem; }
+.days .check { min-width: 3rem; }
+.inline { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.6rem; }
+.inline .field { margin-bottom: 0.6rem; }
+.inline select { max-width: 13rem; }
+.inline input[type="number"] { max-width: 7rem; }
+.btn { min-height: 44px; }
+.btn-sub { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--border); }
+.btn-big { font-size: 1.05rem; padding: 0.6rem 1.6rem; }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.notice { border-color: var(--accent); }
+.notes { list-style: none; margin: 0.3rem 0; font-size: 0.85rem; }
+.notes li { padding-left: 1.1em; text-indent: -1.1em; color: var(--text); }
+.notes li::before { content: '・'; color: var(--accent); }
+.notes li.bad::before { content: '！'; }
+.share-url { width: 100%; padding: 0.4rem; font-size: 0.8rem; border: 1px solid var(--border); border-radius: 6px; background: var(--card); color: var(--text); }
+.table-scroll { overflow-x: auto; margin: 0.6rem 0; }
+table.roster { border-collapse: collapse; font-size: 0.88rem; min-width: 100%; }
+table.roster th, table.roster td { border: 1px solid var(--border); padding: 0.3rem 0.5rem; text-align: center; white-space: nowrap; }
+table.roster thead th { background: var(--accent-soft); color: var(--accent); }
+table.roster tbody th { font-weight: 600; text-align: left; }
+.result-card h2 { margin-bottom: 0.4rem; }
+.history { padding-left: 1.4rem; font-size: 0.88rem; }
+
+/* 班の見本 */
+.groups { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: 0.6rem; margin: 0.6rem 0; }
+.group { border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.7rem; background: var(--bg); }
+.group h3 { font-size: 0.95rem; color: var(--accent); display: flex; justify-content: space-between; gap: 0.4rem; flex-wrap: wrap; }
+.group h3 small { font-weight: normal; color: var(--muted); font-size: 0.75rem; }
+.group ol { list-style: none; font-size: 0.95rem; }
+.group li .g { font-size: 0.72rem; color: var(--muted); margin-left: 0.3rem; }
+.group.bad { border-color: #c0392b; border-width: 2px; }
+.lang-switch { text-align: right; font-size: 0.85rem; max-width: 680px; margin: 0.4rem auto 0; padding: 0 1rem; }
+
+/* 印刷するもの: 画面では出さない。印刷では、これだけを出す */
+.print-area { display: none; }
+@media print {
+  @page { size: A4 portrait; margin: 12mm; }
+  body { background: #fff; color: #000; }
+  body > *:not(.print-area) { display: none !important; }
+  .print-area { display: block; }
+  .sheet { font-family: inherit; color: #000; }
+  .p-title { font-size: 20pt; text-align: center; margin: 0 0 2mm; }
+  .p-sub { text-align: center; font-size: 11pt; margin: 0 0 4mm; }
+  .p-h2 { font-size: 13pt; margin: 6mm 0 2mm; break-after: avoid; }
+  .p-table { border-collapse: collapse; width: 100%; font-size: 12pt; }
+  .p-table thead { display: table-header-group; }
+  .p-table tr { break-inside: avoid; }
+  .p-table th, .p-table td { border: 1px solid #000; padding: 1.6mm 2mm; text-align: center; }
+  .p-table thead th { background: #eee; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .p-table tbody th { text-align: left; white-space: nowrap; width: 1%; }
+  .dense .p-table { font-size: 10pt; }
+  .dense .p-table th, .dense .p-table td { padding: 0.8mm 1.5mm; }
+  .p-table.p-counts { width: 60%; }
+  .p-table.p-counts td { min-width: 4em; }
+  .p-credit { font-size: 8pt; color: #555; text-align: right; margin-top: 4mm; }
+  .p-groups { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+  .p-groups.cols3 { grid-template-columns: 1fr 1fr 1fr; }
+  .p-group { border: 1.5px solid #000; border-radius: 3mm; padding: 3mm 4mm; break-inside: avoid; }
+  .p-group h2 { font-size: 15pt; margin: 0 0 1.5mm; border-bottom: 1px solid #000; }
+  .p-group ol { list-style: none; margin: 0; padding: 0; font-size: 14pt; line-height: 1.55; }
+  .p-groups.small .p-group ol { font-size: 11pt; line-height: 1.4; }
+  .p-groups.small .p-group h2 { font-size: 12pt; }
 }

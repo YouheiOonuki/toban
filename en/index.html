@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Group Generator with Conditions — Gender Balance, Keep Apart | yorozu-craft</title>
+  <meta name="description" content="Paste names and split them into random groups. Balance gender, keep certain students apart or together, avoid last time's groups. Print on A4 or Letter. Free, no sign-up.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/toban/en/">
+  <link rel="alternate" hreflang="ja" href="https://yorozu-craft.com/toban/group/">
+  <link rel="alternate" hreflang="en" href="https://yorozu-craft.com/toban/en/">
+  <link rel="alternate" hreflang="x-default" href="https://yorozu-craft.com/toban/group/">
+
+  <meta property="og:title" content="Random Group Generator with Conditions | yorozu-craft">
+  <meta property="og:description" content="Paste names and split them into random groups. Balance gender, keep certain students apart or together, avoid last time's groups. Print on A4 or Letter. Free, no sign-up.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/toban/en/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://yorozu-craft.com/toban/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Random Group Generator with Conditions",
+    "description": "Paste names and split them into random groups. Balance gender, keep certain students apart or together, avoid last time's groups. Print on A4 or Letter. Free, no sign-up.",
+    "url": "https://yorozu-craft.com/toban/en/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "en"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="stylesheet" href="../style.css">
+  <style>@media print { @page { size: auto; } }</style>
+</head>
+<body>
+
+  <div class="fixbar" id="fixbar" role="status" hidden>
+    <button type="button"><span id="fixbar-text"></span></button>
+  </div>
+
+  <p class="lang-switch"><a href="../group/" hreflang="ja" lang="ja">日本語</a></p>
+
+  <header class="app-header">
+    <h1>Random Group Generator</h1>
+    <p class="subtitle">Split a class list into groups with rules. Your list never leaves this browser.</p>
+  </header>
+
+  <main class="app-main">
+
+    <div id="shared-banner" class="card notice" hidden>
+      <p id="shared-msg"></p>
+      <p class="btn-row">
+        <button type="button" id="shared-save" class="btn">Save on this device</button>
+        <a class="btn btn-sub" href="./">Make my own groups</a>
+      </p>
+    </div>
+
+    <fieldset class="card req watch">
+      <legend>Names and groups</legend>
+      <div class="seg" role="radiogroup" aria-label="List type">
+        <label><input type="radio" name="plist" value="names" checked> Names</label>
+        <label><input type="radio" name="plist" value="numbers"> Numbers only</label>
+      </div>
+      <div id="names-panel" class="field">
+        <label for="names">One name per line</label>
+        <textarea id="names" rows="6" spellcheck="false" placeholder="Example:&#10;Alex, M&#10;Blake, F ★&#10;Casey"></textarea>
+        <p class="hint">Add ", M" or ", F" to balance gender. Add ★ to spread leaders.</p>
+      </div>
+      <div id="numbers-panel" class="field" hidden>
+        <label for="count">Number of people</label>
+        <input type="number" id="count" inputmode="numeric" min="1" max="300" value="30">
+      </div>
+      <div class="inline">
+        <div class="field">
+          <label for="by">Split by</label>
+          <select id="by">
+            <option value="count">Number of groups</option>
+            <option value="size">People per group</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="n">Number</label>
+          <input type="number" id="n" inputmode="numeric" min="1" max="300" value="6">
+        </div>
+      </div>
+      <p id="people-info" class="small" aria-live="polite"></p>
+    </fieldset>
+
+    <section class="card result-card" id="result-card" tabindex="-1" aria-labelledby="h-result">
+      <h2 id="h-result">Groups</h2>
+      <div class="btn-row" id="print-row">
+        <button type="button" id="print" class="btn btn-big">Print</button>
+        <button type="button" id="reroll" class="btn btn-sub">Shuffle again</button>
+      </div>
+      <div id="result-main" aria-live="polite">
+        <p class="result-sub" id="summary"></p>
+        <ul id="notes" class="notes"></ul>
+      </div>
+      <div id="groups" class="groups"></div>
+      <p class="btn-row"><button type="button" id="decide" class="btn btn-sub">Use these groups (save to history)</button></p>
+      <p id="decide-msg" class="small" aria-live="polite"></p>
+      <p class="small"><span id="seed-label"></span></p>
+      <p id="next-step" hidden></p>
+    </section>
+
+    <div class="opts watch">
+      <details class="card opt" id="opt-cond">
+        <summary>Conditions: <span class="opt-state"></span></summary>
+        <label class="check"><input type="checkbox" id="gender"> Balance gender (counts differ by 1 at most)</label>
+        <label class="check"><input type="checkbox" id="star"> Spread ★ people evenly (leaders, helpers)</label>
+        <div class="field">
+          <label for="apart">Keep apart (one set per line)</label>
+          <textarea id="apart" rows="3" spellcheck="false" placeholder="Example:&#10;Alex, Blake&#10;Casey, Drew, Emery"></textarea>
+          <p class="hint">Everyone on a line goes to a different group.</p>
+        </div>
+        <div class="field">
+          <label for="together">Keep together (one set per line)</label>
+          <textarea id="together" rows="2" spellcheck="false" placeholder="Example:&#10;Finley, Gray"></textarea>
+        </div>
+        <label class="check"><input type="checkbox" id="avoid-prev"> Avoid last time's groupmates</label>
+        <p id="prev-info" class="hint"></p>
+      </details>
+
+      <details class="card opt" id="opt-print">
+        <summary>Print: <span class="opt-state"></span></summary>
+        <div class="field">
+          <label for="title">Title</label>
+          <input type="text" id="title" maxlength="40" placeholder="Example: Science lab groups">
+        </div>
+        <label class="check"><input type="checkbox" id="print-credit" checked> Add a small "Made at yorozu-craft.com/toban/print/" line</label>
+        <p class="hint">Uses your printer's paper size (A4 or Letter).</p>
+      </details>
+    </div>
+
+    <details class="card opt no-print" id="file-box">
+      <summary>History, sharing, backup</summary>
+      <h3 class="sub">Past groups (newest first, up to 10)</h3>
+      <ol id="history" class="history"></ol>
+      <label class="check"><input type="checkbox" id="share-names"> Include names and title</label>
+      <p class="hint">Without names, people appear as list numbers (1, 2, 3…).</p>
+      <div class="btn-row">
+        <button type="button" id="share" class="btn btn-sub">Copy share link</button>
+      </div>
+      <p id="share-msg" class="small" aria-live="polite"></p>
+      <input type="text" id="share-url" class="share-url" readonly hidden aria-label="Share link">
+      <p class="small">Your list, conditions, and history are stored only in this browser (localStorage, key <code>toban_group</code>) and are never sent anywhere.</p>
+      <div class="btn-row">
+        <button type="button" id="backup-export" class="btn btn-sub">Save to file</button>
+        <button type="button" id="backup-import" class="btn btn-sub">Load from file</button>
+      </div>
+      <input type="file" id="backup-file" accept=".json,application/json" hidden>
+      <p id="backup-msg" class="small" aria-live="polite"></p>
+    </details>
+
+    <article class="card content">
+      <h2>How the groups are made</h2>
+      <p>Groups are as even as possible: sizes differ by one person at most. With rules on, the tool shuffles and swaps people to meet every rule. If a rule cannot be met, it tells you which one.</p>
+      <p>The same draw number, list, and settings always give the same groups, so a shared link shows exactly what you saw.</p>
+      <p class="small"><a href="https://docs.google.com/forms/d/e/1FAIpQLSd8B90qh5lEIyr25iw1jOjdQjOyaPZ1_z2wMB4kH-EmEeJYWw/viewform?usp=pp_url&amp;entry.585564634=toban" target="_blank" rel="noopener">Feedback form</a> (Google Forms, in Japanese; you can write in English). We read every message but do not reply.</p>
+    </article>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="Footer">
+      <ul>
+        <li><a href="../../en/">yorozu-craft (English)</a></li>
+        <li><a href="./" aria-current="page">Random Group Generator</a></li>
+        <li><a href="../../en/about.html">About</a></li>
+        <li><a href="../../en/privacy-policy.html">Privacy Policy</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <div id="print-area" class="print-area" aria-hidden="true"></div>
+
+  <script src="../text.js"></script>
+  <script src="../screen.js"></script>
+  <script src="../calc.js"></script>
+  <script src="../group.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

@@ -2,11 +2,11 @@
 // README「ツールを追加するとき」20（決定 D31）
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { backupFileName, buildBackup, parseBackup } = require('../calc.js');
+const { backupFileName, buildBackup, parseBackup, normalizeDuty, normalizeGroup } = require('../calc.js');
 
-const TOOL = '__REPO__';
-const DATA = { draft: { amount: '1234' } };
-const REQUIRED = ['draft'];
+const TOOL = 'toban';
+const DATA = { duty: normalizeDuty({ people: '青木\n井上', duties: '日直' }), group: normalizeGroup({ people: '青木,男', history: [{ at: 'x', groups: [['青木']] }] }) };
+const REQUIRED = ['duty'];
 
 test('backupFileName: <ツール名>-backup-YYYYMMDD.json（端末の日付）', () => {
   assert.equal(backupFileName(TOOL, new Date(2026, 8, 24, 23, 59)), TOOL + '-backup-20260924.json');
@@ -68,4 +68,11 @@ test('parseBackup: 新しい版の形式は、その旨を伝えて断る', () =
   const r = parseBackup(JSON.stringify(Object.assign(buildBackup(TOOL, DATA), { version: 2 })), TOOL, REQUIRED);
   assert.equal(r.ok, false);
   assert.match(r.error, /新しい版/);
+});
+
+test('書き出し→読み込み→正規化で同じ中身', () => {
+  const r = parseBackup(JSON.stringify(buildBackup(TOOL, DATA)), TOOL, ['group']);
+  assert.equal(r.ok, true);
+  assert.deepEqual(normalizeDuty(r.data.duty), DATA.duty);
+  assert.deepEqual(normalizeGroup(r.data.group), DATA.group);
 });

@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>__TITLE__｜yorozu-craft</title>
-  <meta name="description" content="__DESCRIPTION__">
+  <title>当番表 作成ツール｜ローテーションを自動で作って印刷（無料・登録なし）｜yorozu-craft</title>
+  <meta name="description" content="人と当番の種類と期間を入れると、回数がそろうローテーションの当番表を自動で作成。日ごと・週ごと、祝日を除く、担当できない日。A4 で印刷、スマホでも。登録なし・無料。">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://yorozu-craft.com/__REPO__/">
+  <link rel="canonical" href="https://yorozu-craft.com/toban/">
 
-  <meta property="og:title" content="__TITLE__｜yorozu-craft">
-  <meta property="og:description" content="__DESCRIPTION__">
+  <meta property="og:title" content="当番表 作成ツール｜yorozu-craft">
+  <meta property="og:description" content="人と当番の種類と期間を入れると、回数がそろうローテーションの当番表を自動で作成。日ごと・週ごと、祝日を除く、担当できない日。A4 で印刷、スマホでも。登録なし・無料。">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://yorozu-craft.com/__REPO__/">
+  <meta property="og:url" content="https://yorozu-craft.com/toban/">
   <meta property="og:site_name" content="yorozu-craft">
   <meta property="og:locale" content="ja_JP">
-  <meta property="og:image" content="https://yorozu-craft.com/__REPO__/og-image.png">
+  <meta property="og:image" content="https://yorozu-craft.com/toban/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
@@ -25,9 +25,9 @@
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "__TITLE__",
-    "description": "__DESCRIPTION__",
-    "url": "https://yorozu-craft.com/__REPO__/",
+    "name": "当番表 作成ツール",
+    "description": "人と当番の種類と期間を入れると、回数がそろうローテーションの当番表を自動で作成。日ごと・週ごと、祝日を除く、担当できない日。A4 で印刷、スマホでも。登録なし・無料。",
+    "url": "https://yorozu-craft.com/toban/",
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "All",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
@@ -35,93 +35,152 @@
   }
   </script>
 
-  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト）。全画面で操作する画面なら script を消して meta だけ残す -->
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
   <meta name="google-adsense-account" content="ca-pub-5375267956079717">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
      crossorigin="anonymous"></script>
 
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./apple-touch-icon.png">
-  <!-- PWA-BEGIN -->
   <link rel="manifest" href="./manifest.webmanifest">
-  <!-- PWA-END -->
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
-  <!-- 上端の固定バー（SCREEN.md 1.1・D59）。結果が出て、結果が画面の外にあるときだけ screen.js が出す。読み込み時は hidden のまま。
-       2 カラム（下の layout-2col）にするなら class に fixbar-narrow も足す（PC では出さない）。
-       印刷物（設定 → 出力）なら中身を <button type="button">印刷する</button> にし、main.js で onClick を渡す -->
+  <!-- 上端の固定バー（印刷物なので中身は印刷ボタン。印刷ボタンの行が画面の外にあるときだけ出す） -->
   <div class="fixbar" id="fixbar" role="status" hidden>
-    <a href="#result-card"><span id="fixbar-text"></span> ▸ 結果へ</a>
+    <button type="button"><span id="fixbar-text"></span></button>
   </div>
 
   <header class="app-header">
-    <h1>__TITLE__</h1>
-    <!-- 冒頭は制度 2 文・60 字、道具 1 文・40 字（WRITING.md 1 章）。時点と「外部に送信しない」をここに -->
-    <p class="subtitle">__DESCRIPTION__ 入力は外部に送信しません。</p>
+    <h1>当番表を作る</h1>
+    <p class="subtitle">人と当番を入れると、回数のそろう当番表ができます。入力は外部に送信しません。</p>
   </header>
 
-  <!-- 画面の骨組み「入力 → 結果」（yorozu-plans の docs/SCREEN.md 1.1。README「ツールを追加するとき」25）。
-       順番は 1 必須の入力 → 2 結果 → 3 くわしく入れる → 4 保存・書き出し → 5 使い方へのリンク。1 と 2 の間に段落・見出しを挟まない。
-       制度の計算機で PC を 2 カラムにするなら class に layout-2col を足す -->
   <main class="app-main">
-    <form id="form" autocomplete="off" onsubmit="return false">
 
-      <!-- 1 必須の入力: 空だと結果が出ない項目だけ（制度 6・道具 3・印刷物 4 まで）。h2 は付けず legend。数値の既定は空欄＋ placeholder -->
+    <div id="shared-banner" class="card notice" hidden>
+      <p id="shared-msg"></p>
+      <p class="btn-row">
+        <button type="button" id="shared-save" class="btn">この端末に保存する</button>
+        <a class="btn btn-sub" href="./">自分の当番表を作る</a>
+      </p>
+    </div>
+
+    <form id="form" autocomplete="off" onsubmit="return false">
+      <!-- 必須の設定（印刷物は 4 項目まで） -->
       <fieldset class="card req">
-        <legend>金額</legend>
-        <div class="field">
-          <label for="amount">金額（円）</label>
-          <input type="number" id="amount" inputmode="numeric" placeholder="例：1234">
+        <legend>当番表</legend>
+        <div class="two">
+          <div class="field">
+            <label for="people">担当する人（1 行に 1 人。班でも）</label>
+            <textarea id="people" rows="6" spellcheck="false" placeholder="例：&#10;青木&#10;井上&#10;上田"></textarea>
+          </div>
+          <div class="field">
+            <label for="duties">当番の種類（1 行に 1 つ）</label>
+            <textarea id="duties" rows="6" spellcheck="false" placeholder="例：&#10;日直&#10;給食 2"></textarea>
+            <p class="hint">「給食 2」で 1 回 2 人。</p>
+          </div>
+        </div>
+        <div class="two dates">
+          <div class="field">
+            <label for="start">はじめの日</label>
+            <input type="date" id="start">
+          </div>
+          <div class="field">
+            <label for="end">終わりの日</label>
+            <input type="date" id="end">
+          </div>
         </div>
       </fieldset>
-
-      <!-- 2 結果: 大きな数字 1 つ＋ 1 行（aria-live）。内訳は details.rels。下に免責 1 文と、ほかのツールへの導線 1〜2 行（README 21） -->
-      <section class="card result-card" id="result-card" tabindex="-1" aria-labelledby="h-result">
-        <h2 id="h-result">結果</h2>
-        <div id="result-main" aria-live="polite">
-          <p class="result-big" id="result">—</p>
-          <p class="result-sub" id="result-sub">金額を入れると出ます。</p>
-        </div>
-        <details class="rels">
-          <summary>内訳と途中の計算</summary>
-          <p class="small" id="result-detail">—</p>
-        </details>
-        <p class="small">この計算は目安です。</p>
-      </section>
-
-      <!-- 3 くわしく入れる: 一部の人だけの項目。グループごとに 1 つの details。summary の .opt-state に今の状態（main.js の detailsSummary）。
-           開いた状態は保存しない。道具で任意の項目が無ければ、この節ごと消す -->
-      <div class="opts">
-        <details class="card opt" id="opt-unit">
-          <summary>端数の単位: <span class="opt-state">100 円</span></summary>
-          <div class="field">
-            <label for="unit">切り上げる単位</label>
-            <select id="unit">
-              <option value="100" selected>100 円</option>
-              <option value="1000">1,000 円</option>
-            </select>
-          </div>
-        </details>
-      </div>
     </form>
 
-    <!-- 4 保存・書き出し（README「ツールを追加するとき」20。定型 2 文＋ボタン） -->
+    <!-- 主なボタンと見本 -->
+    <section class="card result-card" id="result-card" tabindex="-1" aria-labelledby="h-result">
+      <h2 id="h-result">当番表</h2>
+      <div class="btn-row" id="print-row">
+        <button type="button" id="print" class="btn btn-big">印刷する</button>
+        <button type="button" id="reroll" class="btn btn-sub" hidden>くじを引き直す</button>
+      </div>
+      <div id="result-main" aria-live="polite">
+        <p class="result-sub" id="summary">担当する人・当番・期間を入れると出ます。</p>
+        <ul id="notes" class="notes"></ul>
+      </div>
+      <div class="table-scroll"><table id="roster" class="roster"></table></div>
+      <details class="rels" id="d-counts">
+        <summary>1 人ずつの回数</summary>
+        <div class="table-scroll"><table id="counts" class="roster counts"></table></div>
+      </details>
+      <p class="small"><span id="seed-label"></span> <a href="../print-help.html">スマホで印刷するには →</a></p>
+    </section>
+
+    <div class="opts">
+      <details class="card opt" id="opt-unit">
+        <summary>回し方: <span class="opt-state"></span></summary>
+        <div class="field">
+          <span class="label">区切り</span>
+          <div class="seg" role="radiogroup" aria-label="区切り">
+            <label><input type="radio" name="unit" value="day" checked> 日ごと</label>
+            <label><input type="radio" name="unit" value="week"> 週ごと（月曜はじまり）</label>
+          </div>
+        </div>
+        <fieldset class="field plain">
+          <legend class="label">当番の曜日</legend>
+          <div class="days" id="days"></div>
+          <label class="check"><input type="checkbox" id="skip-hol" checked> 祝日を除く</label>
+          <p class="hint" id="hol-info"></p>
+        </fieldset>
+        <div class="field">
+          <span class="label">順番</span>
+          <div class="seg" role="radiogroup" aria-label="順番">
+            <label><input type="radio" name="order" value="turn" checked> 名簿の順に回す</label>
+            <label><input type="radio" name="order" value="lottery"> くじ</label>
+          </div>
+          <p class="hint">どちらも回数をそろえ、なるべく続けて当番にしません。前回の続きにするときは、名簿の先頭を次の人に。</p>
+        </div>
+      </details>
+
+      <details class="card opt" id="opt-unavail">
+        <summary>担当できない日: <span class="opt-state"></span></summary>
+        <div class="field">
+          <label for="unavail">1 行に 1 人「名前: 日付や曜日」</label>
+          <textarea id="unavail" rows="3" spellcheck="false" placeholder="例：&#10;青木: 10/3, 10/17&#10;井上: 水"></textarea>
+          <p class="hint">その日は当番に入れません（週ごとなら、その週の当番の日がぜんぶのとき）。</p>
+        </div>
+      </details>
+
+      <details class="card opt" id="opt-print">
+        <summary>印刷: <span class="opt-state"></span></summary>
+        <div class="field">
+          <label for="title">見出し</label>
+          <input type="text" id="title" maxlength="40" placeholder="例：3年2組 掃除当番（10月）">
+        </div>
+        <label class="check"><input type="checkbox" id="print-counts" checked> 1 人ずつの回数の表も印刷する</label>
+        <label class="check"><input type="checkbox" id="print-credit" checked> 紙の下に「yorozu-craft.com/toban/print/ で作成」と小さく入れる</label>
+        <p class="hint">A4 縦。行が多いときは 2 枚目に続きます。</p>
+      </details>
+    </div>
+
     <details class="card opt no-print" id="file-box">
-      <summary>入力の保存・書き出し</summary>
-      <p class="small">入力内容はこの端末のブラウザ（localStorage、キー <code>__REPO___draft</code>）にだけ保存され、外部には送信されません。書き出し・読み込みはこの画面のボタンから。</p>
+      <summary>共有・保存・書き出し</summary>
+      <label class="check"><input type="checkbox" id="share-names"> 名前と見出しも入れる</label>
+      <p class="hint">入れないときは、名前の代わりに 1, 2, 3 … で出ます。</p>
       <div class="btn-row">
-        <button type="button" id="share" class="btn">結果を開くリンクをコピー</button>
-        <button type="button" id="backup-export" class="btn">ファイルに書き出す</button>
-        <button type="button" id="backup-import" class="btn">ファイルから読み込む</button>
+        <button type="button" id="share" class="btn btn-sub">共有リンクをコピー</button>
+      </div>
+      <p id="share-msg" class="small" aria-live="polite"></p>
+      <input type="text" id="share-url" class="share-url" readonly hidden aria-label="共有リンク">
+      <p class="small">入力内容はこの端末のブラウザ（localStorage、キー <code>toban_duty</code>）にだけ保存され、外部には送信されません。書き出し・読み込みはこの画面のボタンから。</p>
+      <div class="btn-row">
+        <button type="button" id="backup-export" class="btn btn-sub">ファイルに書き出す</button>
+        <button type="button" id="backup-import" class="btn btn-sub">ファイルから読み込む</button>
       </div>
       <input type="file" id="backup-file" accept=".json,application/json" hidden>
       <p id="backup-msg" class="small" aria-live="polite"></p>
     </details>
 
-    <!-- 5 使い方へのリンク（1 行） -->
-    <p class="small"><a href="./guide.html">使い方・根拠・よくある質問</a></p>
+    <p class="small center">班を作るなら → <a href="./group/">グループ分け（男女均等・同じ班にしない）</a></p>
+    <p class="small center"><a href="./guide.html">使い方・回し方のしくみ・よくある質問</a></p>
 
   </main>
 
@@ -129,7 +188,8 @@
     <nav class="footer-nav" aria-label="フッターナビゲーション">
       <ul>
         <li><a href="../">yorozu-craft トップ</a></li>
-        <li><a href="./" aria-current="page">__TITLE__</a></li>
+        <li><a href="./" aria-current="page">当番表</a></li>
+        <li><a href="./group/">グループ分け</a></li>
         <li><a href="./guide.html">使い方・よくある質問</a></li>
         <li><a href="../about.html">運営者情報</a></li>
         <li><a href="../privacy-policy.html">プライバシーポリシー</a></li>
@@ -138,7 +198,11 @@
     <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
   </footer>
 
+  <!-- 印刷するもの（いつも最新にしておく。ブラウザのメニューから印刷しても白紙にならないように） -->
+  <div id="print-area" class="print-area" aria-hidden="true"></div>
+
   <script src="./constants.js"></script>
+  <script src="./text.js"></script>
   <script src="./screen.js"></script>
   <script src="./calc.js"></script>
   <script src="./main.js"></script>

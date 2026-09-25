@@ -1,8 +1,8 @@
 {
-  "id": "/__REPO__/",
-  "name": "__TITLE__｜yorozu-craft",
-  "short_name": "__TITLE__",
-  "description": "__DESCRIPTION__",
+  "id": "/toban/",
+  "name": "当番表・グループ分け｜yorozu-craft",
+  "short_name": "当番表",
+  "description": "当番表のローテーションと、条件つきのグループ分け（班分け）を作って印刷。",
   "lang": "ja",
   "start_url": "./",
   "scope": "./",
