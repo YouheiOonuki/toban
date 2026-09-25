@@ -10,7 +10,7 @@
 'use strict';
 
 const CACHE_PREFIX = 'toban-';
-const CACHE_NAME   = `${CACHE_PREFIX}v1`; // キャッシュする中身の構成を変えたら上げる
+const CACHE_NAME   = `${CACHE_PREFIX}v2`; // キャッシュする中身の構成を変えたら上げる
 
 /** 初回インストール時に取得しておくファイル */
 const PRECACHE_URLS = [
@@ -28,6 +28,7 @@ const PRECACHE_URLS = [
   './screen.js',
   './main.js',
   './group.js',
+  './reset-storage.js',
   './manifest.webmanifest',
   './favicon.svg',
   './apple-touch-icon.png',

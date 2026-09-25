@@ -164,6 +164,7 @@
       <div class="btn-row">
         <button type="button" id="backup-export" class="btn btn-sub">Save to file</button>
         <button type="button" id="backup-import" class="btn btn-sub">Load from file</button>
+        <button type="button" class="btn btn-sub" data-reset-storage="toban_">Delete everything saved (reset)</button>
       </div>
       <input type="file" id="backup-file" accept=".json,application/json" hidden>
       <p id="backup-msg" class="small" aria-live="polite"></p>
@@ -195,6 +196,7 @@
   <script src="../text.js"></script>
   <script src="../screen.js"></script>
   <script src="../calc.js"></script>
+  <script src="../reset-storage.js"></script>
   <script src="../group.js"></script>
   <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
