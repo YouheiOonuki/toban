@@ -116,7 +116,7 @@
       sizeBroken: function (n) { return 'Group sizes are uneven (' + n.sizes.join(', ') + '). Check "keep together".'; },
       notKept: 'Some conditions could not be met. Remove one or change the number of groups.',
       seed: function (s) { return 'Draw no. ' + s; },
-      decided: 'Saved. "Avoid last groups" will use it next time.',
+      decided: 'Saved. "Avoid last time\'s groupmates" will use it next time.',
       historyItem: function (h) { return h.at + ' (' + h.groups.length + ' groups)'; },
       historyNone: 'None yet.',
       prevInfo: function (h) { return h ? 'Last: ' + h.at + ', ' + h.groups.length + ' groups' : 'Press "Use these groups" first.'; },
