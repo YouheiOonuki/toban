@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>使い方・よくある質問｜__TITLE__｜yorozu-craft</title>
-  <meta name="description" content="__TITLE__の使い方、計算の根拠、よくある質問、ご利用上の注意。">
+  <title>当番表の作り方・グループ分けの条件｜使い方とよくある質問｜yorozu-craft</title>
+  <meta name="description" content="当番表 作成ツールとグループ分け（班分け）ツールの使い方。回数をそろえるローテーションのしくみ、男女均等・同じ班にしない条件、よくある質問、データの扱い。">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://yorozu-craft.com/__REPO__/guide.html">
+  <link rel="canonical" href="https://yorozu-craft.com/toban/guide.html">
 
-  <meta property="og:title" content="使い方・よくある質問｜__TITLE__">
-  <meta property="og:description" content="__TITLE__の使い方、計算の根拠、よくある質問、ご利用上の注意。">
+  <meta property="og:title" content="当番表の作り方・グループ分けの条件｜yorozu-craft">
+  <meta property="og:description" content="当番表 作成ツールとグループ分け（班分け）ツールの使い方。回数をそろえるローテーションのしくみ、男女均等・同じ班にしない条件、よくある質問、データの扱い。">
   <meta property="og:type" content="article">
-  <meta property="og:url" content="https://yorozu-craft.com/__REPO__/guide.html">
+  <meta property="og:url" content="https://yorozu-craft.com/toban/guide.html">
   <meta property="og:site_name" content="yorozu-craft">
   <meta property="og:locale" content="ja_JP">
-  <meta property="og:image" content="https://yorozu-craft.com/__REPO__/og-image.png">
+  <meta property="og:image" content="https://yorozu-craft.com/toban/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
@@ -27,13 +27,18 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "無料で使えますか？",
-        "acceptedAnswer": { "@type": "Answer", "text": "はい。会員登録やインストールも不要で、ブラウザだけで使えます。" }
+        "name": "当番表をスマホで作って印刷するには？",
+        "acceptedAnswer": { "@type": "Answer", "text": "スマホのブラウザで作り、「印刷する」から家のプリンターや PDF に出せます。印刷のしかたは「スマホで印刷する」のページにまとめています。" }
       },
       {
         "@type": "Question",
-        "name": "入力した内容はどこに保存されますか？",
-        "acceptedAnswer": { "@type": "Answer", "text": "お使いのブラウザの中にだけ保存され、外部のサーバーには送信されません。" }
+        "name": "グループ分けで男女を均等にするには？",
+        "acceptedAnswer": { "@type": "Answer", "text": "名簿に「,男」「,女」を付け、条件の「男女の数を班ごとにそろえる」を選ぶと、どの班も男子・女子の数の差が 1 人までになります。そろえられないときは、班ごとの人数を出して知らせます。" }
+      },
+      {
+        "@type": "Question",
+        "name": "前回と同じ班にならないようにするには？",
+        "acceptedAnswer": { "@type": "Answer", "text": "「この班で決定」で記録しておくと、次に「前回と同じ班だった人を、なるべく別の班に」が使えます。ほかの条件を守ったうえで、同じ班になる 2 人の組をなるべく少なくします（0 にできないこともあります）。" }
       }
     ]
   }
@@ -51,60 +56,79 @@
 <body>
 
   <header class="app-header">
-    <h1>__TITLE__ の使い方</h1>
-    <p class="subtitle">使い方・計算の根拠・よくある質問・ご利用上の注意</p>
+    <h1>当番表・グループ分けの使い方</h1>
+    <p class="subtitle">使い方・決め方のしくみ・よくある質問・ご利用上の注意</p>
   </header>
 
   <main class="app-main">
 
-    <p class="card" style="text-align:center"><a href="./">▶ __TITLE__ を使う</a></p>
+    <p class="card center"><a href="./">▶ 当番表を作る</a>　<a href="./group/">▶ グループ分けをする</a></p>
 
     <article class="card content" id="howto">
-      <h2>使い方</h2>
+      <h2>当番表の作り方</h2>
       <ol>
-        <li>（手順を書く）</li>
+        <li>担当する人（班でも）を 1 行に 1 人ずつ入れる</li>
+        <li>当番の種類を入れる。「給食 2」で 1 回 2 人</li>
+        <li>はじめの日と終わりの日を選ぶ</li>
+        <li>できた表を見て「印刷する」</li>
       </ol>
+      <p>「回し方」で日ごと・週ごと、曜日、祝日を除くか、名簿の順かくじかを選べます。休みの日がある人は「担当できない日」に「青木: 10/3, 水」の形で入れます。</p>
     </article>
 
-    <!-- 制度・単価など時点のある値を使うツールだけ残す。値は constants.js、画面にも時点を出す -->
-    <article class="card content" id="basis">
-      <h2>根拠と確認日</h2>
-      <dl class="info-list">
-        <dt>根拠</dt>
-        <dd>（法令・公式ページの名前）</dd>
-        <dt>最終確認日</dt>
-        <dd><time datetime="__DATE__">__DATE_JA__</time></dd>
-      </dl>
-      <p class="small">制度や単価は変わることがあります。最終確認日から時間がたっている場合は、公式ページで最新の情報をご確認ください。</p>
+    <article class="card content" id="group">
+      <h2>グループ分け（班分け）の条件</h2>
+      <p>名簿を貼り、班の数か 1 班の人数を決めると、すぐに班ができます。どの班も人数の差は 1 人までです。</p>
+      <ul>
+        <li><strong>男女の数をそろえる</strong>：名簿に「,男」「,女」を付けます。班ごとの男子・女子の数の差は 1 人まで</li>
+        <li><strong>★の人をそろえる</strong>：班長の候補などに★を付けると、班ごとの人数の差が 1 人まで</li>
+        <li><strong>別の班・同じ班</strong>：1 行に 1 組。同じ行の人がみんな別の班（同じ班）になります</li>
+        <li><strong>前回と同じ班を避ける</strong>：「この班で決定」で記録した、いちばん新しい班分けを使います</li>
+      </ul>
+      <p>守れない条件があると、どの条件かを名前で出します（例:「青木 と 井上 が同じ 2班です」）。</p>
+    </article>
+
+    <article class="card content" id="how">
+      <h2>回し方・班の決め方のしくみ</h2>
+      <p>当番表は回数のそろい方を、班分けは条件を守ることを先にして決めます。同じくじ番号・同じ入力なら、いつでも同じ結果です。</p>
+      <details>
+        <summary>くわしい決め方</summary>
+        <p>当番表: 1 日（週ごとなら 1 週）ずつ、その日の当番の枠と人の組み合わせを、次の順で優先して決めます。1) それまでの回数が少ない人、2) すぐ前の日（週）に当番でなかった人、3) その当番をした回数が少ない人、4) 名簿の順に回すなら前の当番の次の当番と名簿の順、くじなら乱数。担当できない日の人は入れず、1 人が同じ日に 2 つの当番はしません。人が足りない枠は「—」で空けます。</p>
+        <p>グループ分け: 「同じ班」の人を 1 つのまとまりにし、人数の多いまとまりから空きのある班へ入れます。そのあと、まとまりの入れ替えをくじで何度も試し、守れていない条件の数が減る並びを取ります（焼きなまし法）。条件をすべて守れたら、前回と同じ班だった 2 人の組を減らします。試す回数は人数で決まっていて、時間では打ち切りません。</p>
+      </details>
     </article>
 
     <article class="card content" id="faq">
       <h2>よくある質問</h2>
       <dl class="faq">
-        <dt>無料で使えますか？</dt>
-        <dd>はい。会員登録やインストールも不要で、ブラウザだけで使えます。</dd>
-        <dt>入力した内容はどこに保存されますか？</dt>
-        <dd>お使いのブラウザの中にだけ保存され、外部のサーバーには送信されません。</dd>
+        <dt>当番表をスマホで作って印刷するには？</dt>
+        <dd>スマホのブラウザで作り、「印刷する」から家のプリンターや PDF に出せます。印刷のしかたは<a href="../print-help.html">スマホで印刷する</a>のページにまとめています。</dd>
+        <dt>グループ分けで男女を均等にするには？</dt>
+        <dd>名簿に「,男」「,女」を付け、条件の「男女の数を班ごとにそろえる」を選ぶと、どの班も男子・女子の数の差が 1 人までになります。そろえられないときは、班ごとの人数を出して知らせます。</dd>
+        <dt>前回と同じ班にならないようにするには？</dt>
+        <dd>「この班で決定」で記録しておくと、次に「前回と同じ班だった人を、なるべく別の班に」が使えます。ほかの条件を守ったうえで、同じ班になる 2 人の組をなるべく少なくします（0 にできないこともあります）。</dd>
       </dl>
     </article>
 
-    <!-- README「ツールを追加するとき」8: ツール固有の注意・データの扱いはここに書く -->
     <article class="card content" id="notes">
       <h2>ご利用上の注意・データの扱い</h2>
       <ul>
-        <li><strong>保存されるデータ</strong>：（何をブラウザに保存するか。保存しないならそう書く）</li>
-        <li><strong>バックアップ</strong>：「ファイルに書き出す」で、（保存している内容）を JSON ファイルにできます。ファイルはこの端末の中で作り、どこにも送信しません。機種変更のときやブラウザのデータを消す前に書き出しておき、新しい端末ではファイルを移して「ファイルから読み込む」を押してください（今の内容はファイルの内容に置き換わります）。（ブラウザに保存しないツールではこの行を消す）</li>
-        <li><strong>共有リンク</strong>：（共有機能があれば、リンクに何が含まれるか。URL の「#」以降に入るのでサーバーには送信されない）</li>
-        <li><strong>結果の扱い</strong>：（計算結果は目安であること、最終的な確認先など）</li>
+        <li><strong>保存されるデータ</strong>：入力内容はこの端末のブラウザ（localStorage、キー <code>toban_duty</code>・<code>toban_group</code>）にだけ保存され、外部には送信されません。書き出し・読み込みは画面のボタンから</li>
+        <li><strong>共有リンク</strong>：既定では名前が入らず、番号で出ます。名前を入れると、受け取った人（転送された人も）が読めます。リンクの「#」以降に入るので、サーバーには送られません</li>
+        <li><strong>結果の扱い</strong>：班や当番はくじと決まった手順で作ります。配慮が必要な人の班や当番は、条件で指定したうえで最後は人が確かめてください</li>
       </ul>
-      <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSd8B90qh5lEIyr25iw1jOjdQjOyaPZ1_z2wMB4kH-EmEeJYWw/viewform?usp=pp_url&amp;entry.585564634=__REPO__" target="_blank" rel="noopener">ご要望・不具合の報告（Google フォーム）</a>：いただいた内容をもとに直します。お返事はしていません。</p>
+      <p class="small">祝日: 内閣府「国民の祝日」について（2025〜2027 年）。最終確認日 <time datetime="2026-09-25">2026年9月25日</time>。</p>
+      <details>
+        <summary>出典の URL</summary>
+        <p class="small"><a href="https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html" target="_blank" rel="noopener">https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html</a>（祝日の CSV と照合。2028 年以降は、内閣府が公表したら足します）</p>
+      </details>
+      <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSd8B90qh5lEIyr25iw1jOjdQjOyaPZ1_z2wMB4kH-EmEeJYWw/viewform?usp=pp_url&amp;entry.585564634=toban" target="_blank" rel="noopener">ご要望・不具合の報告（Google フォーム）</a>：いただいた内容をもとに直します。お返事はしていません。</p>
       <p>サイト全体の運営者情報・免責事項は<a href="../about.html">こちら</a>、プライバシーポリシーは<a href="../privacy-policy.html">こちら</a>です（すべてのツールで共通）。</p>
     </article>
 
     <article class="card content" id="changelog">
       <h2>更新履歴</h2>
       <ul>
-        <li><time datetime="__DATE__">__DATE_JA__</time> 公開</li>
+        <li><time datetime="2026-09-25">2026年9月25日</time> 公開</li>
       </ul>
     </article>
 
@@ -114,7 +138,8 @@
     <nav class="footer-nav" aria-label="フッターナビゲーション">
       <ul>
         <li><a href="../">yorozu-craft トップ</a></li>
-        <li><a href="./">__TITLE__</a></li>
+        <li><a href="./">当番表</a></li>
+        <li><a href="./group/">グループ分け</a></li>
         <li><a href="./guide.html" aria-current="page">使い方・よくある質問</a></li>
         <li><a href="../about.html">運営者情報</a></li>
         <li><a href="../privacy-policy.html">プライバシーポリシー</a></li>

@@ -1,94 +1,58 @@
-# __TITLE__
+# 当番表・グループ分け
 
-公開 URL: **https://yorozu-craft.com/__REPO__/**
+公開 URL: **https://yorozu-craft.com/toban/**（当番表）、**https://yorozu-craft.com/toban/group/**（グループ分け）、**https://yorozu-craft.com/toban/en/**（Random Group Generator。英語版）
 
-__DESCRIPTION__
-yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github.io の README](https://github.com/YouheiOonuki/youheioonuki.github.io) を参照）。
-
-<!-- TEMPLATE-BEGIN -->
-## テンプレートの使い方（`tools/init.mjs` を実行すると、この節は消えます）
-
-yorozu-craft の新しいツールの雛形です。サイト共通の決まり（youheioonuki.github.io の README「ツールを追加するとき」）のうち、ファイルで守れるものは最初から入れてあります。
-
-1. GitHub で「Use this template」→ リポジトリ名は短いローマ字＋種類（例: `loan-sim`）。URL になる
-2. クローンして、初期化スクリプトを 1 回だけ実行する（Node 20 以上）
-
-   ```sh
-   node tools/init.mjs loan-sim "住宅ローン 返済シミュレーター" "毎月の返済額と総返済額をすぐ計算。" --pwa
-   ```
-
-   - `__REPO__`・`__TITLE__`・`__DESCRIPTION__`・日付を置き換える
-   - `--pwa` を付けないと、オフライン対応の部分（`sw.js`・`manifest.webmanifest`・`PWA-BEGIN`〜`PWA-END`）を消す
-   - README のこの節と `tools/init.mjs` 自身を消す
-3. `node --test tests/*.test.js` が通ることを確かめてからコミット
-4. 残りは youheioonuki.github.io の README「ツールを追加するとき」の手順どおり（Pages の公開と Enforce HTTPS、トップの一覧・robots.txt・URL 表への追加など）
-
-最初から入っているもの:
-
-| 決まり | 入っている場所 |
-|-------|---------------|
-| canonical・OGP・AdSense・Cloudflare ビーコン | `index.html`・`guide.html` の `<head>` と `</body>` 直前 |
-| 共通ページへの相対リンク（`../about.html`・`../privacy-policy.html`） | 各ページのフッター |
-| ツール配下の 404 | `404.html`（youheioonuki.github.io のものと同じ） |
-| 保存キーの接頭辞 `<リポジトリ名>_`・try/catch | `main.js` の `store` |
-| 共有 URL は `#s=` | `main.js` の `toShareHash` / `fromShareHash` |
-| 保存内容を JSON ファイルに書き出し・読み込み（`{tool, version, exportedAt, data}`。読み込み時は `tool` を確かめ、正規化してから確認のうえ上書き） | `calc.js` の `backupFileName` / `buildBackup` / `parseBackup`、`main.js` の書き出し・読み込み、`index.html` のボタン、`tests/backup.test.js` |
-| SW のキャッシュ名の接頭辞・自分のパスだけ扱う・`./sw.js` で登録 | `sw.js`・`main.js` |
-| manifest の `id` は `/<リポジトリ名>/` | `manifest.webmanifest` |
-| 使い方ページは `guide.html`（注意・データの扱い・根拠と確認日・更新履歴の節つき） | `guide.html` |
-| 要望・不具合の報告フォーム（全ツール共通の Google フォーム。リポジトリ名が入った状態で開く） | `guide.html` の「ご利用上の注意・データの扱い」 |
-| 時点のある値は値・出典・確認日をセットで 1 か所に | `constants.js`（テストで出典と確認日の書き忘れを検出） |
-| 計算は画面から切り離した純粋関数＋テスト | `calc.js`・`tests/`・`.github/workflows/test.yml` |
-| 端末のフォント・ダークモード | `style.css` |
-| 画面の骨組み「入力 → 結果」（必須の入力 1 つの `fieldset` → 結果 → くわしく入れる `details` → 保存・書き出し → 使い方へのリンク） | `index.html`（各節にコメント） |
-| 上端の固定バー・`summary` の状態表示・PC の 2 カラム・印刷で広告と固定バーを消す | `screen.js`・`style.css` の「画面の骨組み」・`main.js` の `bar` |
-| MIT ライセンス | `LICENSE` |
-
-画面の部品の使い方（yorozu-plans の `docs/SCREEN.md`。youheioonuki.github.io の README「ツールを追加するとき」25）:
-
-- **必須の入力と結果**: `index.html` の `fieldset.card.req`（見出しは `legend`）の直後に `section.result-card`。大きな数字は `.result-big`、内訳は `details.rels`。入力と結果の間に段落や見出しを置かない
-- **くわしく入れる**: 1 グループ 1 つの `<details class="card opt" id="opt-…">`。`summary` の中に `<span class="opt-state">` を置き、計算のたびに `YorozuScreen.detailsSummary({ 'opt-…': '今の状態' })`。道具で任意の項目が無ければ `.opts` ごと消す
-- **固定バー**: `YorozuScreen.fixedBar({ bar, watch, jump, text })` の戻り値の `set('数字 1 つ')` を計算のたびに呼ぶ（空文字なら出さない）。結果が画面内にあれば出ない。印刷物では `watch` を印刷ボタンの行にし、バーの中身を `<button>`、`onClick` で印刷を呼ぶ
-- **PC の 2 カラム**（制度の計算機だけ）: `<main class="app-main layout-2col">` と、固定バーに `fixbar-narrow` を足す
-- **印刷**: `style.css` の `@media print` で固定バー・`.no-print`・広告（`ins.adsbygoogle` など）を消し、折りたたみの中は出す。印刷物のツールは用紙の CSS をこの下に足す
-- 公開前に yorozu-plans の `tools/ui/measure_fold.cjs`（位置）と `tools/writing/measure.py`（字数）で「要修正」が無いことを確かめる
-
-差し替えが必要なもの: `favicon.svg`・`apple-touch-icon.png`（180×180）・`og-image.png`（1200×630）は仮の絵なので、ツールに合わせて作り直す。
-<!-- TEMPLATE-END -->
+当番表のローテーションと、条件つきのグループ分け（班分け）を作って印刷。
+yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github.io の README](https://github.com/YouheiOonuki/youheioonuki.github.io) を参照）。企画書は yorozu-plans の `docs/22_当番表.md`（K74）。
 
 ## 機能
 
-- （できることを箇条書きで）
-- 入力内容はこの端末のブラウザにだけ保存し、外部には送信しない
+- **当番表**（`/toban/`）: 担当する人（班でも）× 当番の種類（「給食 2」で 1 回 2 人）× 期間。日ごと／週ごと（月曜はじまり）、曜日、祝日を除く、担当できない日（日付・曜日）。回し方は「名簿の順に回す」と「くじ」。どちらも回数の差を最小にし、なるべく続けて当番にしない。A4 縦で印刷（1 人ずつの回数の表つき）
+- **グループ分け**（`/toban/group/`・`/toban/en/`）: 名簿の貼り付け（「,男」「,女」「★」）か番号だけ、班の数か 1 班の人数。条件は 男女の数をそろえる・★の人をそろえる・別の班にする人（1 行 1 組、何人でも）・同じ班にする人・前回と同じ班だった人をなるべく別に。守れない条件は名前で知らせる。「この班で決定」で記録（10 件）。A4 縦で印刷。「この班で当番表を作る」で 1班〜N班を当番表へ
+- くじ番号（seed）: 同じ番号・同じ入力なら同じ結果（`Math.random` を使わない）
+- 共有リンク `#s=`: 既定は名前を入れない（番号で出る）。受け取った画面は「この端末に保存する」まで端末のデータを書きかえない
+- 入力内容はこの端末のブラウザにだけ保存し、外部には送信しない。ファイルへの書き出し・読み込み（当番表と班分けの両方）
 
-## 計算の仕様・根拠
+## 決め方の仕様
 
-（計算式、使っている値と出典。値は `constants.js` にまとめ、画面の「根拠と確認日」にも出す）
+- **当番表**（`calc.js` の `makeRoster`）: 1 行（日・週）ずつ、その行の枠（当番 × 人数）と人を割り当て問題（ハンガリー法、`assignMin`）で結ぶ。コストの重い順に 1) それまでの回数 2) すぐ前の行にも当番だったか 3) その当番の回数 4) 順番（前の当番の次・名簿の順）かくじの乱数。担当できない人はその行に入れない。人が足りない枠は空ける（「—」）
+- **グループ分け**（`makeGroups`）: 「同じ班」の人をまとまりにし、大きいまとまりから（同じ属性の割合が低い）空きのある班へ入れる → まとまりの入れ替え・移動をくじで試す焼きなまし。守れない条件（人数・別の班・男女と★の差 2 以上）を先に、前回と同じ班だった 2 人の組をあとで減らす。試す回数は人数で決まっていて、時間では打ち切らない
+- 画面の文は `text.js`（`TEXT.ja`・`TEXT.en`・`TEXT.duty`）。`calc.js` は `{ code }` を返す
+
+## 値と出典
+
+| 値 | 出典 | 確認日 |
+|---|---|---|
+| 祝日（2025〜2027 年の 54 日。振替休日・国民の休日を含む） | 内閣府「国民の祝日」について <https://www8.cao.go.jp/chosei/shukujitsu/gaiyou.html> の CSV（syukujitsu.csv） | 2026-09-25（`constants.js` の `CHECKED`） |
 
 ## 保守
 
 | 時期 | 確認すること | 直す場所 |
 |------|------------|---------|
-| （例: 毎年4月ごろ） | （例: 料率の改定） | `constants.js`、`guide.html` の最終確認日 |
+| 毎年 2 月ごろ | 内閣府が翌年の祝日を公表したら CSV から足す（今は 2027 年まで。2027 年 2 月に 2028 年を足す） | `constants.js` の `HOLIDAYS`・`HOLIDAY_YEARS.to`・`CHECKED`、テストの日数、`guide.html` の確認日と更新履歴 |
 
-値や計算を直したら、`guide.html` の「更新履歴」に日付と内容を 1 行足す。
+値や決め方を直したら、`guide.html` の「更新履歴」に日付と内容を 1 行足す。`sw.js` のキャッシュ名（`toban-vN`）は、キャッシュするファイルの構成を変えたら上げる。
 
 ## ファイル
 
 | ファイル | 役割 |
 |---------|------|
-| `index.html` | ツール本体 |
-| `guide.html` | 使い方・根拠と確認日・よくある質問・ご利用上の注意・更新履歴 |
-| `calc.js` | 計算ロジック（画面から切り離した純粋関数） |
-| `constants.js` | 時点のある値（値・出典・確認日） |
-| `main.js` | 画面の制御・保存・共有リンク |
+| `index.html` / `main.js` | 当番表 |
+| `group/index.html` / `en/index.html` / `group.js` | グループ分け（日本語・英語。`group.js` は `<html lang>` で文を選ぶ） |
+| `guide.html` | 使い方・決め方のしくみ・よくある質問・ご利用上の注意・更新履歴 |
+| `print/index.html` | 印刷物のクレジットの着地ページ（noindex・sitemap に載せない） |
+| `calc.js` | 決め方（画面から切り離した純粋関数）・共有リンク・正規化・バックアップ |
+| `text.js` | 画面に出す文 |
+| `constants.js` | 祝日（値・出典・確認日） |
 | `screen.js` | 画面の部品（上端の固定バー、`details` の `summary` の状態表示） |
-| `style.css` | 見た目（和紙風の配色、ダークモード対応） |
-| `sw.js` / `manifest.webmanifest` | オフライン対応（使う場合のみ） |
+| `style.css` | 見た目（和紙風の配色、ダークモード、印刷） |
+| `sw.js` / `manifest.webmanifest` | オフライン対応（キャッシュ名 `toban-v1`） |
 | `404.html` | ツール配下の存在しない URL で出るページ（サイト共通のもの） |
 | `favicon.svg` / `apple-touch-icon.png` / `og-image.png` | アイコン / ホーム画面用アイコン / SNS 共有用画像（1200×630） |
 | `sitemap.xml` | サイトマップ（robots.txt はドメイン直下で管理） |
 | `tests/*.test.js` | テスト（`node --test tests/*.test.js`。`.github/workflows/test.yml` で push・PR のたびに自動実行） |
+
+保存キー: `toban_duty`（当番表）、`toban_group`（班分け・記録）。
 
 ## ライセンス
 

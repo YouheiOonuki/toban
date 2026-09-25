@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>グループ分け・班分けツール｜男女均等・同じ班にしない条件つき（無料・登録なし）｜yorozu-craft</title>
+  <meta name="description" content="名簿を貼るだけでランダムにグループ分け・班分け。男女の数をそろえる、この人たちは別の班・同じ班、前回と同じ班を避ける。A4 で印刷、共有リンク。登録なし・無料。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/toban/group/">
+  <link rel="alternate" hreflang="ja" href="https://yorozu-craft.com/toban/group/">
+  <link rel="alternate" hreflang="en" href="https://yorozu-craft.com/toban/en/">
+  <link rel="alternate" hreflang="x-default" href="https://yorozu-craft.com/toban/group/">
+
+  <meta property="og:title" content="グループ分け・班分けツール｜yorozu-craft">
+  <meta property="og:description" content="名簿を貼るだけでランダムにグループ分け・班分け。男女の数をそろえる、この人たちは別の班・同じ班、前回と同じ班を避ける。A4 で印刷、共有リンク。登録なし・無料。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/toban/group/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/toban/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "グループ分け・班分けツール",
+    "description": "名簿を貼るだけでランダムにグループ分け・班分け。男女の数をそろえる、この人たちは別の班・同じ班、前回と同じ班を避ける。A4 で印刷、共有リンク。登録なし・無料。",
+    "url": "https://yorozu-craft.com/toban/group/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <div class="fixbar" id="fixbar" role="status" hidden>
+    <button type="button"><span id="fixbar-text"></span></button>
+  </div>
+
+  <p class="lang-switch"><a href="../en/" hreflang="en" lang="en">English</a></p>
+
+  <header class="app-header">
+    <h1>グループ分け・班分け</h1>
+    <p class="subtitle">名簿を貼ると、条件つきのくじで班ができます。入力は外部に送信しません。</p>
+  </header>
+
+  <main class="app-main">
+
+    <div id="shared-banner" class="card notice" hidden>
+      <p id="shared-msg"></p>
+      <p class="btn-row">
+        <button type="button" id="shared-save" class="btn">この端末に保存する</button>
+        <a class="btn btn-sub" href="./">自分の班分けを作る</a>
+      </p>
+    </div>
+
+    <fieldset class="card req watch">
+      <legend>名簿と班の数</legend>
+      <div class="seg" role="radiogroup" aria-label="名簿の入れ方">
+        <label><input type="radio" name="plist" value="names" checked> 名前を入れる</label>
+        <label><input type="radio" name="plist" value="numbers"> 番号だけ</label>
+      </div>
+      <div id="names-panel" class="field">
+        <label for="names">1 行に 1 人（名簿から貼り付け）</label>
+        <textarea id="names" rows="6" spellcheck="false" placeholder="例：&#10;青木,男&#10;井上,女★&#10;上田"></textarea>
+        <p class="hint">「,男」「,女」で男女をそろえる、★で各班に分けられます。</p>
+      </div>
+      <div id="numbers-panel" class="field" hidden>
+        <label for="count">人数</label>
+        <input type="number" id="count" inputmode="numeric" min="1" max="300" value="30">
+      </div>
+      <div class="inline">
+        <div class="field">
+          <label for="by">分け方</label>
+          <select id="by">
+            <option value="count">班の数</option>
+            <option value="size">1 班の人数</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="n">数</label>
+          <input type="number" id="n" inputmode="numeric" min="1" max="300" value="6">
+        </div>
+      </div>
+      <p id="people-info" class="small" aria-live="polite"></p>
+    </fieldset>
+
+    <section class="card result-card" id="result-card" tabindex="-1" aria-labelledby="h-result">
+      <h2 id="h-result">班</h2>
+      <div class="btn-row" id="print-row">
+        <button type="button" id="print" class="btn btn-big">印刷する</button>
+        <button type="button" id="reroll" class="btn btn-sub">くじを引き直す</button>
+      </div>
+      <div id="result-main" aria-live="polite">
+        <p class="result-sub" id="summary"></p>
+        <ul id="notes" class="notes"></ul>
+      </div>
+      <div id="groups" class="groups"></div>
+      <p class="btn-row"><button type="button" id="decide" class="btn btn-sub">この班で決定（記録する）</button></p>
+      <p id="decide-msg" class="small" aria-live="polite"></p>
+      <p class="small"><span id="seed-label"></span> <a href="../../print-help.html">スマホで印刷するには →</a></p>
+      <p id="next-step" class="next-step" hidden>班が決まったら → <a href="../" data-base="../">この班で当番表を作る</a></p>
+    </section>
+
+    <div class="opts watch">
+      <details class="card opt" id="opt-cond">
+        <summary>条件: <span class="opt-state"></span></summary>
+        <label class="check"><input type="checkbox" id="gender"> 男女の数を班ごとにそろえる（差は 1 人まで）</label>
+        <label class="check"><input type="checkbox" id="star"> ★の人を班ごとにそろえる（班長の候補など）</label>
+        <div class="field">
+          <label for="apart">別の班にする人（1 行に 1 組）</label>
+          <textarea id="apart" rows="3" spellcheck="false" placeholder="例：&#10;青木、井上&#10;上田、江藤、小川"></textarea>
+          <p class="hint">同じ行の人は、みんな別の班になります。</p>
+        </div>
+        <div class="field">
+          <label for="together">同じ班にする人（1 行に 1 組）</label>
+          <textarea id="together" rows="2" spellcheck="false" placeholder="例：&#10;加藤、木村"></textarea>
+        </div>
+        <label class="check"><input type="checkbox" id="avoid-prev"> 前回と同じ班だった人を、なるべく別の班に</label>
+        <p id="prev-info" class="hint"></p>
+      </details>
+
+      <details class="card opt" id="opt-print">
+        <summary>印刷: <span class="opt-state"></span></summary>
+        <div class="field">
+          <label for="title">見出し</label>
+          <input type="text" id="title" maxlength="40" placeholder="例：理科の実験班（10月）">
+        </div>
+        <label class="check"><input type="checkbox" id="print-credit" checked> 紙の下に「yorozu-craft.com/toban/print/ で作成」と小さく入れる</label>
+        <p class="hint">A4 縦。班ごとに枠で囲みます。</p>
+      </details>
+    </div>
+
+    <details class="card opt no-print" id="file-box">
+      <summary>記録・共有・保存</summary>
+      <h3 class="sub">これまでの班（新しい順・10 件まで）</h3>
+      <ol id="history" class="history"></ol>
+      <label class="check"><input type="checkbox" id="share-names"> 名前と見出しも入れる</label>
+      <p class="hint">入れないときは、名前の代わりに名簿の番号（1, 2, 3 …）で出ます。</p>
+      <div class="btn-row">
+        <button type="button" id="share" class="btn btn-sub">共有リンクをコピー</button>
+      </div>
+      <p id="share-msg" class="small" aria-live="polite"></p>
+      <input type="text" id="share-url" class="share-url" readonly hidden aria-label="共有リンク">
+      <p class="small">名簿・条件・記録はこの端末のブラウザ（localStorage、キー <code>toban_group</code>）にだけ保存され、外部には送信されません。書き出し・読み込みはこの画面のボタンから。</p>
+      <div class="btn-row">
+        <button type="button" id="backup-export" class="btn btn-sub">ファイルに書き出す</button>
+        <button type="button" id="backup-import" class="btn btn-sub">ファイルから読み込む</button>
+      </div>
+      <input type="file" id="backup-file" accept=".json,application/json" hidden>
+      <p id="backup-msg" class="small" aria-live="polite"></p>
+    </details>
+
+    <p class="small center">当番のローテーションは → <a href="../">当番表を作る</a></p>
+    <p class="small center"><a href="../guide.html#group">使い方・条件のしくみ・よくある質問</a></p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">当番表</a></li>
+        <li><a href="./" aria-current="page">グループ分け</a></li>
+        <li><a href="../guide.html">使い方・よくある質問</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <div id="print-area" class="print-area" aria-hidden="true"></div>
+
+  <script src="../text.js"></script>
+  <script src="../screen.js"></script>
+  <script src="../calc.js"></script>
+  <script src="../group.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
