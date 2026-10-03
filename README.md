@@ -48,7 +48,7 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | `text.js` | 画面に出す文 |
 | `constants.js` | 祝日（値・出典・確認日） |
 | `screen.js` | 画面の部品（上端の固定バー、`details` の `summary` の状態表示） |
-| `style.css` | 見た目（和紙風の配色、ダークモード、印刷） |
+| `style.css` | 見た目（和紙風の配色、ダークモード、印刷）。先頭の `yorozu-common:begin`〜`end` はサイト共通の部品とトークン（手で直さない。正本は youheioonuki.github.io の `tools/common/yorozu-common.css`、`tools/sync-common.mjs` で配る） |
 | `sw.js` / `manifest.webmanifest` | オフライン対応（キャッシュ名 `toban-v3`） |
 | `404.html` | ツール配下の存在しない URL で出るページ（サイト共通のもの） |
 | `favicon.svg` / `apple-touch-icon.png` / `og-image.png` | アイコン / ホーム画面用アイコン / SNS 共有用画像（1200×630） |

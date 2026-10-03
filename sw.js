@@ -10,7 +10,7 @@
 'use strict';
 
 const CACHE_PREFIX = 'toban-';
-const CACHE_NAME   = `${CACHE_PREFIX}v3`; // キャッシュする中身の構成を変えたら上げる
+const CACHE_NAME   = `${CACHE_PREFIX}v4`; // キャッシュする中身の構成を変えたら上げる（v4: 共通の部品 yorozu-common v1）
 
 /** 初回インストール時に取得しておくファイル */
 const PRECACHE_URLS = [
