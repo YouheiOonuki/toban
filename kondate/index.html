@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>献立ローテーション表｜家の定番料理を並べて 1〜5 週間分を自動で（印刷・無料）｜yorozu-craft</title>
+  <meta name="description" content="家の定番料理を 1 行ずつ入れると、同じ料理が続かない献立表を 1〜5 週間分つくります。肉・魚など同じ種類を続けない、金曜はカレーのような決まった日、外食の日。A4 で印刷。レシピは持たず、登録なし・無料。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/toban/kondate/">
+
+  <meta property="og:title" content="献立ローテーション表（1〜5 週間・印刷）｜yorozu-craft">
+  <meta property="og:description" content="定番料理を入れると、同じ料理・同じ種類が続かない献立表を自動で。決まった日・外食の日。A4 で印刷。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yorozu-craft.com/toban/kondate/">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/toban/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "献立ローテーション表",
+    "description": "家の定番料理から、同じ料理・同じ種類が続かない献立表を 1〜5 週間分つくって印刷する。",
+    "url": "https://yorozu-craft.com/toban/kondate/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+    "inLanguage": "ja"
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./kondate.css">
+</head>
+<body>
+
+  <div class="fixbar" id="fixbar" role="status" hidden>
+    <button type="button"><span id="fixbar-text"></span></button>
+  </div>
+
+  <header class="app-header">
+    <h1>献立ローテーション表</h1>
+    <p class="subtitle">家の定番料理から、同じ料理が続かない献立表を作ります。入力は外部に送信しません。</p>
+  </header>
+
+  <main class="app-main">
+
+    <fieldset class="card req">
+      <legend>料理と期間</legend>
+      <div class="field">
+        <label for="dishes">家の定番料理（1 行に 1 品。「,肉」のように種類も書けます）</label>
+        <textarea id="dishes" rows="8" spellcheck="false"></textarea>
+        <p class="hint" id="dish-info" aria-live="polite"></p>
+      </div>
+      <div class="inline">
+        <div class="field">
+          <label for="start">はじめの日</label>
+          <input type="date" id="start">
+        </div>
+        <div class="field">
+          <label for="weeks">期間</label>
+          <select id="weeks"><option value="1">1 週間</option><option value="2">2 週間</option><option value="3">3 週間</option><option value="4">4 週間</option><option value="5">5 週間</option></select>
+        </div>
+      </div>
+    </fieldset>
+
+    <section class="card result-card" id="result-card" tabindex="-1" aria-labelledby="h-result">
+      <h2 id="h-result">献立表</h2>
+      <div class="btn-row">
+        <button type="button" id="print" class="btn btn-big">印刷する（A4 横）</button>
+        <button type="button" id="reroll" class="btn btn-sub">くじを引き直す</button>
+      </div>
+      <p class="result-sub" id="summary" aria-live="polite"></p>
+      <div class="kd-wrap"><table class="kd-table" id="kd-table"></table></div>
+      <p class="small"><span id="seed-label"></span> <a href="../../print-help.html">スマホで印刷するには →</a></p>
+    </section>
+
+    <div class="opts">
+      <details class="card opt" id="opt-rule">
+        <summary>決まりごと: <span class="opt-state"></span></summary>
+        <label class="check"><input type="checkbox" id="no-same-kind" checked> 同じ種類（肉・魚など）を 2 日続けない（なるべく）</label>
+        <fieldset class="field kd-days">
+          <legend>作らない曜日（外食・休みなど）</legend>
+          <div id="skip-days"></div>
+        </fieldset>
+        <div class="field">
+          <label for="fixed">決まった日（1 行に 1 つ）</label>
+          <textarea id="fixed" rows="2" spellcheck="false" placeholder="例：&#10;金: カレー&#10;日: 手巻きずし"></textarea>
+          <p class="hint">その曜日はいつもこの料理にします。</p>
+        </div>
+      </details>
+
+      <details class="card opt" id="opt-print">
+        <summary>印刷: <span class="opt-state"></span></summary>
+        <div class="field">
+          <label for="title">見出し</label>
+          <input type="text" id="title" maxlength="40" placeholder="例：10月の夕ごはん">
+        </div>
+        <label class="check"><input type="checkbox" id="memo" checked> 日ごとに「買い物メモ」の欄を入れる</label>
+        <label class="check"><input type="checkbox" id="credit" checked> 紙の下に「yorozu-craft.com/toban/print/ で作成」と小さく入れる</label>
+      </details>
+    </div>
+
+    <details class="card opt no-print" id="file-box">
+      <summary>入力の保存・書き出し</summary>
+      <p class="small">料理と設定はこの端末のブラウザ（localStorage、キー <code>toban_kondate</code>）にだけ保存され、外部には送信されません。書き出し・読み込み・消去はこの画面のボタンから。</p>
+      <div class="btn-row">
+        <button type="button" id="backup-export" class="btn btn-sub">ファイルに書き出す</button>
+        <button type="button" id="backup-import" class="btn btn-sub">ファイルから読み込む</button>
+        <button type="button" class="btn btn-sub" data-reset-storage="toban_kondate">保存した内容をすべて消す（初期状態に戻す）</button>
+      </div>
+      <input type="file" id="backup-file" accept=".json,application/json" hidden>
+      <p id="backup-msg" class="small" aria-live="polite"></p>
+    </details>
+
+    <p class="small center">家の当番は → <a href="../">当番表を作る</a>・<a href="./guide.html">使い方・よくある質問</a></p>
+
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <ul>
+        <li><a href="../../">yorozu-craft トップ</a></li>
+        <li><a href="../">当番表</a></li>
+        <li><a href="./" aria-current="page">献立ローテーション表</a></li>
+        <li><a href="./guide.html">献立表の使い方</a></li>
+        <li><a href="../../about.html">運営者情報</a></li>
+        <li><a href="../../privacy-policy.html">プライバシーポリシー</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <div id="print-area" class="print-area" aria-hidden="true"></div>
+
+  <script src="../screen.js"></script>
+  <script src="../calc.js"></script>
+  <script src="../reset-storage.js"></script>
+  <script src="./kondate-calc.js"></script>
+  <script src="./kondate.js"></script>
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

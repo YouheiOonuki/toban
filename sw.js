@@ -10,7 +10,7 @@
 'use strict';
 
 const CACHE_PREFIX = 'toban-';
-const CACHE_NAME   = `${CACHE_PREFIX}v2`; // キャッシュする中身の構成を変えたら上げる
+const CACHE_NAME   = `${CACHE_PREFIX}v3`; // キャッシュする中身の構成を変えたら上げる
 
 /** 初回インストール時に取得しておくファイル */
 const PRECACHE_URLS = [
@@ -32,6 +32,13 @@ const PRECACHE_URLS = [
   './manifest.webmanifest',
   './favicon.svg',
   './apple-touch-icon.png',
+  // 献立ローテーション表（/toban/kondate/）
+  './kondate/',
+  './kondate/index.html',
+  './kondate/kondate.css',
+  './kondate/kondate-calc.js',
+  './kondate/kondate.js',
+  './kondate/guide.html',
 ];
 
 /** この時間ネットワークが応答しなければ、キャッシュがあればそちらを返す */
