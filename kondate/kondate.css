@@ -1,0 +1,26 @@
+/* 献立ローテーション表（kondate/）だけの見た目。色は ../style.css のトークン */
+.kd-wrap { overflow-x: auto; margin: 0.4rem 0; }
+.kd-table { border-collapse: collapse; width: 100%; min-width: 34rem; table-layout: fixed; font-size: 0.85rem; }
+.kd-table th, .kd-table td { border: 1px solid var(--border); padding: 0.3rem; vertical-align: top; }
+.kd-table thead th { background: var(--bg-2, var(--card)); text-align: center; }
+.kd-table td.skip { color: var(--muted); background: var(--bg-2, transparent); }
+.kd-table td.fixed .kd-dish { text-decoration: underline; }
+.kd-date { display: block; font-size: 0.72rem; color: var(--muted); }
+.kd-dish { display: block; font-weight: 700; line-height: 1.3; overflow-wrap: anywhere; }
+.kd-kind { display: block; font-size: 0.7rem; color: var(--muted); }
+.kd-days { border: 0; padding: 0; margin: 0.6rem 0; }
+.kd-days legend { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.2rem; }
+.kd-day { display: inline-flex; margin-right: 0.6rem; }
+
+@media print {
+  @page { size: A4 landscape; margin: 10mm; }
+  .kd-ptable { table-layout: fixed; }
+  .kd-ptable th, .kd-ptable td { text-align: left; vertical-align: top; padding: 1.2mm 1.6mm; font-size: 11pt; }
+  .kd-ptable thead th { text-align: center; }
+  .kd-ptable .kd-date { font-size: 8.5pt; color: #333; }
+  .kd-ptable .kd-dish { font-size: 12pt; }
+  .kd-ptable .kd-kind { font-size: 8pt; color: #333; }
+  .kd-ptable td.skip { color: #555; }
+  .kd-ptable tr.kd-memo td { height: 12mm; }
+  .kd-memo-l { font-size: 7pt; color: #777; }
+}
