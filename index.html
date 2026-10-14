@@ -75,9 +75,8 @@
             <textarea id="people" rows="6" spellcheck="false" placeholder="例：&#10;青木&#10;井上&#10;上田"></textarea>
           </div>
           <div class="field">
-            <label for="duties">当番の種類（1 行に 1 つ）</label>
+            <label for="duties">当番の種類（1 行に 1 つ。「給食 2」で 1 回 2 人）</label>
             <textarea id="duties" rows="6" spellcheck="false" placeholder="例：&#10;日直&#10;給食 2"></textarea>
-            <p class="hint">「給食 2」で 1 回 2 人。</p>
           </div>
         </div>
         <div class="two dates">
@@ -101,7 +100,7 @@
         <button type="button" id="reroll" class="btn btn-sub" hidden>くじを引き直す</button>
       </div>
       <div id="result-main" aria-live="polite">
-        <p class="result-sub" id="summary">担当する人・当番・期間を入れると出ます。</p>
+        <p class="result-sub" id="summary"></p>
         <ul id="notes" class="notes"></ul>
       </div>
       <div class="table-scroll"><table id="roster" class="roster"></table></div>
@@ -197,7 +196,7 @@
     </details>
     <!-- /about-tool -->
 
-    <p class="small center">班を作るなら → <a href="./group/">グループ分け（男女均等・同じ班にしない）</a>。献立を順に回すなら → <a href="./kondate/">献立ローテーション</a></p>
+    <p class="small center"><a href="./group/">グループ分け（男女均等・同じ班にしない）</a>・<a href="./kondate/">献立ローテーション</a></p>
     <p class="small center"><a href="./guide.html">使い方・回し方のしくみ・よくある質問</a></p>
 
   </main>
