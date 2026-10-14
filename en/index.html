@@ -79,9 +79,8 @@
         <label><input type="radio" name="plist" value="numbers"> Numbers only</label>
       </div>
       <div id="names-panel" class="field">
-        <label for="names">One name per line</label>
+        <label for="names">One name per line. Add ", M" or ", F" to balance gender. Add ★ to spread leaders.</label>
         <textarea id="names" rows="6" spellcheck="false" placeholder="Example:&#10;Alex, M&#10;Blake, F ★&#10;Casey"></textarea>
-        <p class="hint">Add ", M" or ", F" to balance gender. Add ★ to spread leaders.</p>
       </div>
       <div id="numbers-panel" class="field" hidden>
         <label for="count">Number of people</label>
@@ -170,12 +169,12 @@
       <p id="backup-msg" class="small" aria-live="polite"></p>
     </details>
 
-    <article class="card content">
-      <h2>How the groups are made</h2>
+    <details class="card content opt">
+      <summary>How the groups are made</summary>
       <p>Groups are as even as possible: sizes differ by one person at most. With rules on, the tool shuffles and swaps people to meet every rule. If a rule cannot be met, it tells you which one.</p>
       <p>The same draw number, list, and settings always give the same groups, so a shared link shows exactly what you saw.</p>
       <p class="small"><a href="/post/?from=/toban/en/">Feedback box</a> (in Japanese; you can write in English). We read every message but do not reply.</p>
-    </article>
+    </details>
 
   </main>
 
