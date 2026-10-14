@@ -158,7 +158,7 @@
   function summaries() {
     var s = state.settings;
     var n = Object.keys(C.parseUnavail(state.unavail, C.parsePeople(state.people).people.map(function (p) { return p.name; })).map).length;
-    window.YorozuScreen.detailsSummary({ 'opt-unit': T.unitState(s), 'opt-unavail': T.unavailState(n), 'opt-print': T.printState(s.title) });
+    window.YorozuScreen.detailsSummary({ 'opt-end': T.endState(s.end, !!s.start && s.end === C.monthEnd(s.start)), 'opt-unit': T.unitState(s), 'opt-unavail': T.unavailState(n), 'opt-print': T.printState(s.title) });
   }
   function save() { if (!sharedMode) store.set('duty', state); }
 
@@ -207,8 +207,14 @@
   $('form').addEventListener('input', onInput);
   document.querySelector('.opts').addEventListener('input', onInput);
   document.querySelector('.opts').addEventListener('change', onInput);
-  // 終わりの日が空のときは、はじめの日から 1 か月
-  el.start.addEventListener('change', function () { if (el.start.value && !el.end.value) { el.end.value = C.monthEnd(el.start.value); onInput(); } });
+  // 終わりの日が空か既定（前のはじめの日から 1 か月）のままなら、新しいはじめの日から 1 か月にそろえる。
+  // 終わりの日は折りたたみの中なので、はじめの日だけ動かして期間が逆になるのを防ぐ（ROADMAP 7.73 判断 2）
+  var prevStart = '';
+  el.start.addEventListener('focus', function () { prevStart = el.start.value; });
+  el.start.addEventListener('change', function () {
+    if (el.start.value && (!el.end.value || el.end.value === C.monthEnd(prevStart))) { el.end.value = C.monthEnd(el.start.value); onInput(); }
+    prevStart = el.start.value;
+  });
   $('print').addEventListener('click', doPrint);
   el.reroll.addEventListener('click', function () { state.seed = newSeed(); compute(); });
 

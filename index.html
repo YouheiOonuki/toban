@@ -79,15 +79,9 @@
             <textarea id="duties" rows="6" spellcheck="false" placeholder="例：&#10;日直&#10;給食 2"></textarea>
           </div>
         </div>
-        <div class="two dates">
-          <div class="field">
-            <label for="start">はじめの日</label>
-            <input type="date" id="start">
-          </div>
-          <div class="field">
-            <label for="end">終わりの日</label>
-            <input type="date" id="end">
-          </div>
+        <div class="field">
+          <label for="start">はじめの日</label>
+          <input type="date" id="start">
         </div>
       </fieldset>
     </form>
@@ -112,6 +106,14 @@
     </section>
 
     <div class="opts">
+      <!-- 終わりの日は既定（はじめの日から 1 か月）で足りるので、結果の後ろの折りたたみへ（ROADMAP 7.73 判断 2。入力欄 3） -->
+      <details class="card opt" id="opt-end">
+        <summary>終わりの日: <span class="opt-state"></span></summary>
+        <div class="field">
+          <label for="end">終わりの日</label>
+          <input type="date" id="end">
+        </div>
+      </details>
       <details class="card opt" id="opt-unit">
         <summary>回し方: <span class="opt-state"></span></summary>
         <div class="field">
@@ -184,7 +186,7 @@
       <p>担当する人と当番の種類、期間を入れると、当番表を作って A4 縦に印刷できます。「給食 2」と書くと、1 回に 2 人の当番になります。</p>
       <h3>使い方の要点</h3>
       <ul>
-      <li>担当する人（班でも）を 1 行に 1 人ずつ、当番の種類を 1 行に 1 つ入れ、はじめの日と終わりの日を選びます。</li>
+      <li>担当する人（班でも）を 1 行に 1 人ずつ、当番の種類を 1 行に 1 つ入れ、はじめの日を選びます（終わりの日は 1 か月後。折りたたみで変えられます）。</li>
       <li>「回し方」で、日ごとか週ごとか、当番の曜日、祝日を除くか、名簿の順に回すかくじかを選びます。</li>
       <li>休みの日がある人は「担当できない日」に「青木: 10/3, 水」の形で入れます。できた表を見て「印刷する」を押します。</li>
       </ul>

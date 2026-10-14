@@ -74,17 +74,9 @@
 
     <fieldset class="card req watch">
       <legend>Names and groups</legend>
-      <div class="seg" role="radiogroup" aria-label="List type">
-        <label><input type="radio" name="plist" value="names" checked> Names</label>
-        <label><input type="radio" name="plist" value="numbers"> Numbers only</label>
-      </div>
-      <div id="names-panel" class="field">
-        <label for="names">One name per line. Add ", M" or ", F" to balance gender. Add ★ to spread leaders.</label>
+      <div class="field">
+        <label for="names">One name per line. Add ", M" or ", F" to balance gender. Add ★ to spread leaders. Enter just a number (e.g. 30) to use numbers instead of names.</label>
         <textarea id="names" rows="6" spellcheck="false" placeholder="Example:&#10;Alex, M&#10;Blake, F ★&#10;Casey"></textarea>
-      </div>
-      <div id="numbers-panel" class="field" hidden>
-        <label for="count">Number of people</label>
-        <input type="number" id="count" inputmode="numeric" min="1" max="300" value="30">
       </div>
       <div class="inline">
         <div class="field">

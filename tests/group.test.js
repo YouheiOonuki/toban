@@ -177,3 +177,34 @@ test('保存データの正規化と記録', () => {
   assert.equal(h.length, 10);
   assert.equal(h[0].at, '11');
 });
+
+// ROADMAP 7.73 判断 2: 名簿の欄 1 つで、人数だけを入れると番号で分ける（「名簿の種類」の選択をやめた）
+test('名簿の欄が人数の数だけなら番号の名簿（全角も読む・上限で止める）、名前なら 0', () => {
+  assert.equal(C.rosterNumber('30'), 30);
+  assert.equal(C.rosterNumber(' ３０ \n'), 30);
+  assert.equal(C.rosterNumber('青木\n井上'), 0);
+  assert.equal(C.rosterNumber('30人'), 0);
+  assert.equal(C.rosterNumber('0'), 0);
+  assert.equal(C.rosterNumber(''), 0);
+  assert.equal(C.rosterNumber('100000'), C.LIMITS.people);
+  assert.equal(C.numberPeople(C.rosterNumber('30')).length, 30);
+  assert.deepEqual(C.numberPeople(C.rosterNumber('3')).map((p) => p.name), ['1', '2', '3']);
+});
+test('グループ分けの画面: 名簿の種類の選択と人数の欄が無く、結果より上の入力欄は 名簿・分け方・数 の 3 つ', () => {
+  const fs = require('node:fs'), path = require('node:path');
+  for (const f of ['group/index.html', 'en/index.html']) {
+    const html = fs.readFileSync(path.join(__dirname, '..', f), 'utf8');
+    assert.ok(!/name="plist"/.test(html), f + ' に plist が残っている');
+    assert.ok(!/id="count"/.test(html), f + ' に人数の欄が残っている');
+    for (const id of ['names', 'by', 'n']) assert.ok(new RegExp('id="' + id + '"').test(html), f + ' に ' + id + ' が無い');
+  }
+});
+test('当番表の画面: 終わりの日は結果の後ろの折りたたみにあり、既定ははじめの日から 1 か月', () => {
+  const fs = require('node:fs'), path = require('node:path');
+  const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+  assert.ok(html.indexOf('id="end"') > html.indexOf('id="result-card"'), '終わりの日が結果より上にある');
+  assert.match(html, /<details class="card opt" id="opt-end">[\s\S]*?id="end"[\s\S]*?<\/details>/);
+  assert.equal(C.monthEnd('2026-10-15'), '2026-11-14');
+  assert.equal(TEXT.duty.endState('2026-11-14', true), 'はじめの日から 1 か月');
+  assert.equal(TEXT.duty.endState('2026-11-30', false), '11/30 まで');
+});

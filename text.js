@@ -171,6 +171,7 @@
       return (s.unit === 'week' ? '週ごと' : '日ごと') + '・' + (days || '曜日なし') + (s.skipHolidays ? '・祝日を除く' : '') + '・' + (s.order === 'lottery' ? 'くじ' : '名簿の順');
     },
     unavailState: function (n) { return n ? n + ' 人' : 'なし'; },
+    endState: function (end, auto) { return auto ? 'はじめの日から 1 か月' : (end ? end.replace(/^\d+-0?(\d+)-0?(\d+)$/, '$1/$2') + ' まで' : 'なし'); },
     printState: function (t) { return t || '見出しなし'; },
     printTitle: '当番表',
     credit: 'yorozu-craft.com/toban/print/ で作成',

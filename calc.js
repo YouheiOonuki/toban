@@ -115,6 +115,13 @@
     if (cut) notes.push({ code: 'tooManyLines', max: LIMITS.people, cut: cut });
     return { people: people, notes: notes };
   }
+  /** 名簿の欄が人数の数だけ（例: 「30」）なら、その人数（1〜LIMITS.people）。名前の名簿なら 0（ROADMAP 7.73 判断 2: 名簿の欄 1 つで番号にも使う） */
+  function rosterNumber(text) {
+    var m = /^\s*([0-9０-９]+)\s*$/.exec(String(text == null ? '' : text));
+    if (!m) return 0;
+    var n = Number(m[1].replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); }));
+    return n >= 1 ? Math.min(n, LIMITS.people) : 0;
+  }
   /** 番号だけの名簿（1, 2, …, n） */
   function numberPeople(n) {
     var out = [];
@@ -828,7 +835,7 @@
   var api = {
     LIMITS: LIMITS,
     makeRng: makeRng, seedLabel: seedLabel, parseSeedLabel: parseSeedLabel,
-    parsePeople: parsePeople, numberPeople: numberPeople, parseSets: parseSets,
+    parsePeople: parsePeople, numberPeople: numberPeople, rosterNumber: rosterNumber, parseSets: parseSets,
     groupSizes: groupSizes, makeGroups: makeGroups, checkGroups: checkGroups, countRepeats: countRepeats,
     parseDuties: parseDuties, dutyRows: dutyRows, parseUnavail: parseUnavail, unavailableOn: unavailableOn,
     makeRoster: makeRoster, countTable: countTable, countSpread: countSpread,
