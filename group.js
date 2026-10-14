@@ -23,8 +23,6 @@
     try { var a = new Uint32Array(1); crypto.getRandomValues(a); return a[0]; } catch (e) { return Math.floor(Math.random() * 4294967296); }
   }
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
-  function radio(name) { var r = document.querySelector('input[name="' + name + '"]:checked'); return r ? r.value : ''; }
-  function setRadio(name, v) { var r = document.querySelector('input[name="' + name + '"][value="' + v + '"]'); if (r) r.checked = true; }
   function nowLabel() {
     var d = new Date();
     return LANG === 'en'
@@ -33,7 +31,7 @@
   }
 
   var el = {
-    names: $('names'), count: $('count'), by: $('by'), n: $('n'), gender: $('gender'), star: $('star'),
+    names: $('names'), by: $('by'), n: $('n'), gender: $('gender'), star: $('star'),
     apart: $('apart'), together: $('together'), avoidPrev: $('avoid-prev'), title: $('title'), credit: $('print-credit'),
     summary: $('summary'), notes: $('notes'), groups: $('groups'), seedLabel: $('seed-label'), printArea: $('print-area'),
     peopleInfo: $('people-info'), prevInfo: $('prev-info'), history: $('history'), nextStep: $('next-step'),
@@ -44,24 +42,21 @@
   var last = null;   // いま出している班
 
   function readForm() {
+    // 名簿の欄に人数の数だけ（例: 30）なら番号で分ける（「名簿の種類」の選択はやめた。ROADMAP 7.73 判断 2）
+    var k = C.rosterNumber(el.names.value);
     return Object.assign({}, state, {
-      people: el.names.value, numbers: radio('plist') === 'numbers', count: el.count.value, by: el.by.value, n: el.n.value,
+      people: k ? '' : el.names.value, numbers: k > 0, count: k ? String(k) : state.count, by: el.by.value, n: el.n.value,
       gender: el.gender.checked, star: el.star.checked, apart: el.apart.value, together: el.together.value,
       avoidPrev: el.avoidPrev.checked, title: el.title.value, credit: el.credit.checked,
     });
   }
   function apply(d) {
     d = C.normalizeGroup(d);
-    el.names.value = d.people; setRadio('plist', d.numbers ? 'numbers' : 'names'); el.count.value = d.count;
+    el.names.value = d.numbers ? String(d.count) : d.people;
     el.by.value = d.by; el.n.value = d.n; el.gender.checked = d.gender; el.star.checked = d.star;
     el.apart.value = d.apart; el.together.value = d.together; el.avoidPrev.checked = d.avoidPrev;
     el.title.value = d.title; el.credit.checked = d.credit;
     state = d;
-    panels();
-  }
-  function panels() {
-    var num = radio('plist') === 'numbers';
-    $('names-panel').hidden = num; $('numbers-panel').hidden = !num;
   }
 
   var bar = window.YorozuScreen.fixedBar({ bar: 'fixbar', watch: 'print-row', jump: 'result-card', text: 'fixbar-text', onClick: function () { doPrint(); } });
@@ -163,7 +158,6 @@
   var timer = 0;
   function onInput() {
     shared = null;
-    panels();
     clearTimeout(timer);
     timer = setTimeout(compute, 250);
   }
