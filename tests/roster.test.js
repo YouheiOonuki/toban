@@ -195,3 +195,14 @@ test('祝日: 内閣府の CSV から写した 2025〜2027 年の 54 日・確�
   assert.ok(K.SOURCE.url.startsWith('https://www8.cao.go.jp/'));
   assert.deepEqual(K.HOLIDAY_YEARS, { from: 2025, to: 2027 });
 });
+
+test('名簿の長い 1 行で固まらない（K191 段 2: 正規表現の 3 乗）。普通の行の読み方は変えない', () => {
+  const t = Date.now();
+  // 全体の上限（20000 字）の内に収める。普通の行を先に置く（上限で後ろが切られないように）
+  const r = C.parsePeople('山田太郎（男）★\n佐藤花子, 女\na(' + ' '.repeat(19900) + 'b');
+  assert.ok(Date.now() - t < 1000, '1 秒以内');
+  const by = Object.fromEntries(r.people.map((p) => [p.name, p]));
+  assert.equal(by['山田太郎'].g, 'M');
+  assert.equal(by['山田太郎'].star, true);
+  assert.equal(by['佐藤花子'].g, 'F');
+});

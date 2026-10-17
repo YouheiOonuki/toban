@@ -88,7 +88,8 @@
   function parsePeople(text) {
     var people = [], notes = [], seen = {}, dup = [], cut = 0;
     String(text || '').slice(0, LIMITS.textLen).split(/\r?\n/).forEach(function (line) {
-      var raw = line.replace(/　/g, ' ').trim();
+      // 1 行は名前（30 字）と性別・★の印が入る長さで切ってから照合する。長い 1 行で下の正規表現が 3 乗に遅くなる（K191 段 2。sekigae と同じ直し）
+      var raw = line.replace(/　/g, ' ').trim().slice(0, LIMITS.nameLen + 20).trim();
       var star = /[★☆]/.test(raw);
       raw = raw.replace(/[★☆]/g, '').trim();
       if (!raw) return;
