@@ -18,8 +18,8 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15191d" media="(prefers-color-scheme: dark)">
 
   <script type="application/ld+json">
   {
@@ -57,11 +57,11 @@
 
   <main class="app-main">
 
-    <div id="shared-banner" class="card notice" hidden>
+    <div id="shared-banner" class="notice" hidden>
       <p id="shared-msg"></p>
       <p class="btn-row">
         <button type="button" id="shared-save" class="btn">この端末に保存する</button>
-        <a class="btn btn-sub" href="./">自分の当番表を作る</a>
+        <a class="btn" href="./">自分の当番表を作る</a>
       </p>
     </div>
 
@@ -90,8 +90,8 @@
     <section class="card result-card" id="result-card" tabindex="-1" aria-labelledby="h-result">
       <h2 id="h-result">当番表</h2>
       <div class="btn-row" id="print-row">
-        <button type="button" id="print" class="btn btn-big">印刷する</button>
-        <button type="button" id="reroll" class="btn btn-sub" hidden>くじを引き直す</button>
+        <button type="button" id="print" class="btn btn-primary">印刷する</button>
+        <button type="button" id="reroll" class="btn" hidden>くじを引き直す</button>
       </div>
       <div id="result-main" aria-live="polite">
         <p class="result-sub" id="summary"></p>
@@ -160,27 +160,27 @@
       </details>
     </div>
 
-    <details class="card opt no-print" id="file-box">
+    <details class="card opt" id="file-box">
       <summary>共有・保存・書き出し</summary>
       <label class="check"><input type="checkbox" id="share-names"> 名前と見出しも入れる</label>
       <p class="hint">入れないときは、名前の代わりに 1, 2, 3 … で出ます。</p>
       <div class="btn-row">
-        <button type="button" id="share" class="btn btn-sub">共有リンクをコピー</button>
+        <button type="button" id="share" class="btn">共有リンクをコピー</button>
       </div>
       <p id="share-msg" class="small" aria-live="polite"></p>
-      <input type="text" id="share-url" class="share-url" readonly hidden aria-label="共有リンク">
+      <input type="text" id="share-url" readonly hidden aria-label="共有リンク">
       <p class="small">入力内容はこの端末のブラウザ（localStorage、キー <code>toban_duty</code>）にだけ保存され、外部には送信されません。書き出し・読み込みはこの画面のボタンから。</p>
       <div class="btn-row">
-        <button type="button" id="backup-export" class="btn btn-sub">ファイルに書き出す</button>
-        <button type="button" id="backup-import" class="btn btn-sub">ファイルから読み込む</button>
-        <button type="button" class="btn btn-sub" data-reset-storage="toban_">保存した内容をすべて消す（初期状態に戻す）</button>
+        <button type="button" id="backup-export" class="btn">ファイルに書き出す</button>
+        <button type="button" id="backup-import" class="btn">ファイルから読み込む</button>
+        <button type="button" class="btn" data-reset-storage="toban_">保存した内容をすべて消す（初期状態に戻す）</button>
       </div>
       <input type="file" id="backup-file" accept=".json,application/json" hidden>
       <p id="backup-msg" class="small" aria-live="polite"></p>
     </details>
 
     <!-- about-tool: 道具の説明（使い方ページの要約。AdSense 審査 2026-10-04） -->
-    <details class="about-tool card opt no-print" id="about-tool">
+    <details class="about-tool card opt" id="about-tool">
       <summary>この道具について（使い方・しくみ・注意）</summary>
       <h3>できること</h3>
       <p>担当する人と当番の種類、期間を入れると、当番表を作って A4 縦に印刷できます。「給食 2」と書くと、1 回に 2 人の当番になります。</p>
