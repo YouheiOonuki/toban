@@ -21,8 +21,8 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15191d" media="(prefers-color-scheme: dark)">
 
   <script type="application/ld+json">
   {
@@ -61,11 +61,11 @@
 
   <main class="app-main">
 
-    <div id="shared-banner" class="card notice" hidden>
+    <div id="shared-banner" class="notice" hidden>
       <p id="shared-msg"></p>
       <p class="btn-row">
         <button type="button" id="shared-save" class="btn">この端末に保存する</button>
-        <a class="btn btn-sub" href="./">自分の班分けを作る</a>
+        <a class="btn" href="./">自分の班分けを作る</a>
       </p>
     </div>
 
@@ -94,15 +94,15 @@
     <section class="card result-card" id="result-card" tabindex="-1" aria-labelledby="h-result">
       <h2 id="h-result">班</h2>
       <div class="btn-row" id="print-row">
-        <button type="button" id="print" class="btn btn-big">印刷する</button>
-        <button type="button" id="reroll" class="btn btn-sub">くじを引き直す</button>
+        <button type="button" id="print" class="btn btn-primary">印刷する</button>
+        <button type="button" id="reroll" class="btn">くじを引き直す</button>
       </div>
       <div id="result-main" aria-live="polite">
         <p class="result-sub" id="summary"></p>
         <ul id="notes" class="notes"></ul>
       </div>
       <div id="groups" class="groups"></div>
-      <p class="btn-row"><button type="button" id="decide" class="btn btn-sub">この班で決定（記録する）</button></p>
+      <p class="btn-row"><button type="button" id="decide" class="btn">この班で決定（記録する）</button></p>
       <p id="decide-msg" class="small" aria-live="polite"></p>
       <p class="small"><span id="seed-label"></span> <a href="../../print-help.html">スマホで印刷するには →</a></p>
       <p id="next-step" class="next-step" hidden><a href="../" data-base="../">この班で当番表を作る</a></p>
@@ -144,15 +144,15 @@
       <label class="check"><input type="checkbox" id="share-names"> 名前と見出しも入れる</label>
       <p class="hint">入れないときは、名前の代わりに名簿の番号（1, 2, 3 …）で出ます。</p>
       <div class="btn-row">
-        <button type="button" id="share" class="btn btn-sub">共有リンクをコピー</button>
+        <button type="button" id="share" class="btn">共有リンクをコピー</button>
       </div>
       <p id="share-msg" class="small" aria-live="polite"></p>
       <input type="text" id="share-url" class="share-url" readonly hidden aria-label="共有リンク">
       <p class="small">名簿・条件・記録はこの端末のブラウザ（localStorage、キー <code>toban_group</code>）にだけ保存され、外部には送信されません。書き出し・読み込みはこの画面のボタンから。</p>
       <div class="btn-row">
-        <button type="button" id="backup-export" class="btn btn-sub">ファイルに書き出す</button>
-        <button type="button" id="backup-import" class="btn btn-sub">ファイルから読み込む</button>
-        <button type="button" class="btn btn-sub" data-reset-storage="toban_">保存した内容をすべて消す（初期状態に戻す）</button>
+        <button type="button" id="backup-export" class="btn">ファイルに書き出す</button>
+        <button type="button" id="backup-import" class="btn">ファイルから読み込む</button>
+        <button type="button" class="btn" data-reset-storage="toban_">保存した内容をすべて消す（初期状態に戻す）</button>
       </div>
       <input type="file" id="backup-file" accept=".json,application/json" hidden>
       <p id="backup-msg" class="small" aria-live="polite"></p>

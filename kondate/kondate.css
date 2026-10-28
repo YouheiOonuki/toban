@@ -1,16 +1,16 @@
-/* 献立ローテーション表（kondate/）だけの見た目。色は ../style.css のトークン */
-.kd-wrap { overflow-x: auto; margin: 0.4rem 0; }
-.kd-table { border-collapse: collapse; width: 100%; min-width: 34rem; table-layout: fixed; font-size: 0.85rem; }
-.kd-table th, .kd-table td { border: 1px solid var(--border); padding: 0.3rem; vertical-align: top; }
-.kd-table thead th { background: var(--bg-2, var(--card)); text-align: center; }
-.kd-table td.skip { color: var(--muted); background: var(--bg-2, transparent); }
+/* 献立ローテーション表（kondate/）だけの見た目。色・字・余白は ../style.css（皮）のトークン */
+.kd-wrap { overflow-x: auto; margin: var(--sp-2) 0; }
+.kd-table { border-collapse: collapse; width: 100%; min-width: 34rem; table-layout: fixed; }
+.kd-table th, .kd-table td { border: 1px solid var(--border); padding: var(--sp-1); vertical-align: top; }
+.kd-table thead th { background: var(--bg-2); text-align: center; }
+.kd-table td.skip { color: var(--muted); background: var(--bg-2); }
 .kd-table td.fixed .kd-dish { text-decoration: underline; }
-.kd-date { display: block; font-size: 0.72rem; color: var(--muted); }
+.kd-date { display: block; font-size: var(--fs-s); color: var(--muted); }
 .kd-dish { display: block; font-weight: 700; line-height: 1.3; overflow-wrap: anywhere; }
-.kd-kind { display: block; font-size: 0.7rem; color: var(--muted); }
-.kd-days { border: 0; padding: 0; margin: 0.6rem 0; }
-.kd-days legend { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.2rem; }
-.kd-day { display: inline-flex; margin-right: 0.6rem; }
+.kd-kind { display: block; font-size: var(--fs-s); color: var(--muted); }
+.kd-days { border: 0; padding: 0; margin: var(--sp-3) 0; }
+.kd-days legend { font-weight: 700; margin-bottom: var(--sp-1); }
+.kd-day { display: inline-flex; margin-right: var(--sp-3); }
 
 @media print {
   @page { size: A4 landscape; margin: 10mm; }

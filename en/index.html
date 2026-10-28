@@ -21,8 +21,8 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#8b4513" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1c1814" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#eef0f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15191d" media="(prefers-color-scheme: dark)">
 
   <script type="application/ld+json">
   {
@@ -64,11 +64,11 @@
 
   <main class="app-main">
 
-    <div id="shared-banner" class="card notice" hidden>
+    <div id="shared-banner" class="notice" hidden>
       <p id="shared-msg"></p>
       <p class="btn-row">
         <button type="button" id="shared-save" class="btn">Save on this device</button>
-        <a class="btn btn-sub" href="./">Make my own groups</a>
+        <a class="btn" href="./">Make my own groups</a>
       </p>
     </div>
 
@@ -97,15 +97,15 @@
     <section class="card result-card" id="result-card" tabindex="-1" aria-labelledby="h-result">
       <h2 id="h-result">Groups</h2>
       <div class="btn-row" id="print-row">
-        <button type="button" id="print" class="btn btn-big">Print</button>
-        <button type="button" id="reroll" class="btn btn-sub">Shuffle again</button>
+        <button type="button" id="print" class="btn btn-primary">Print</button>
+        <button type="button" id="reroll" class="btn">Shuffle again</button>
       </div>
       <div id="result-main" aria-live="polite">
         <p class="result-sub" id="summary"></p>
         <ul id="notes" class="notes"></ul>
       </div>
       <div id="groups" class="groups"></div>
-      <p class="btn-row"><button type="button" id="decide" class="btn btn-sub">Use these groups (save to history)</button></p>
+      <p class="btn-row"><button type="button" id="decide" class="btn">Use these groups (save to history)</button></p>
       <p id="decide-msg" class="small" aria-live="polite"></p>
       <p class="small"><span id="seed-label"></span></p>
       <p id="next-step" hidden></p>
@@ -147,15 +147,15 @@
       <label class="check"><input type="checkbox" id="share-names"> Include names and title</label>
       <p class="hint">Without names, people appear as list numbers (1, 2, 3…).</p>
       <div class="btn-row">
-        <button type="button" id="share" class="btn btn-sub">Copy share link</button>
+        <button type="button" id="share" class="btn">Copy share link</button>
       </div>
       <p id="share-msg" class="small" aria-live="polite"></p>
       <input type="text" id="share-url" class="share-url" readonly hidden aria-label="Share link">
       <p class="small">Your list, conditions, and history are stored only in this browser (localStorage, key <code>toban_group</code>) and are never sent anywhere.</p>
       <div class="btn-row">
-        <button type="button" id="backup-export" class="btn btn-sub">Save to file</button>
-        <button type="button" id="backup-import" class="btn btn-sub">Load from file</button>
-        <button type="button" class="btn btn-sub" data-reset-storage="toban_">Delete everything saved (reset)</button>
+        <button type="button" id="backup-export" class="btn">Save to file</button>
+        <button type="button" id="backup-import" class="btn">Load from file</button>
+        <button type="button" class="btn" data-reset-storage="toban_">Delete everything saved (reset)</button>
       </div>
       <input type="file" id="backup-file" accept=".json,application/json" hidden>
       <p id="backup-msg" class="small" aria-live="polite"></p>
