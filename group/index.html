@@ -139,7 +139,7 @@
 
     <details class="card opt" id="file-box">
       <summary>記録・共有・保存</summary>
-      <h3 class="sub">これまでの班（新しい順・10 件まで）</h3>
+      <h3>これまでの班（新しい順・10 件まで）</h3>
       <ol id="history" class="history"></ol>
       <label class="check"><input type="checkbox" id="share-names"> 名前と見出しも入れる</label>
       <p class="hint">入れないときは、名前の代わりに名簿の番号（1, 2, 3 …）で出ます。</p>
@@ -147,7 +147,7 @@
         <button type="button" id="share" class="btn">共有リンクをコピー</button>
       </div>
       <p id="share-msg" class="small" aria-live="polite"></p>
-      <input type="text" id="share-url" class="share-url" readonly hidden aria-label="共有リンク">
+      <input type="text" id="share-url" readonly hidden aria-label="共有リンク">
       <p class="small">名簿・条件・記録はこの端末のブラウザ（localStorage、キー <code>toban_group</code>）にだけ保存され、外部には送信されません。書き出し・読み込みはこの画面のボタンから。</p>
       <div class="btn-row">
         <button type="button" id="backup-export" class="btn">ファイルに書き出す</button>

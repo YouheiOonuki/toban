@@ -142,7 +142,7 @@
 
     <details class="card opt" id="file-box">
       <summary>History, sharing, backup</summary>
-      <h3 class="sub">Past groups (newest first, up to 10)</h3>
+      <h3>Past groups (newest first, up to 10)</h3>
       <ol id="history" class="history"></ol>
       <label class="check"><input type="checkbox" id="share-names"> Include names and title</label>
       <p class="hint">Without names, people appear as list numbers (1, 2, 3…).</p>
@@ -150,7 +150,7 @@
         <button type="button" id="share" class="btn">Copy share link</button>
       </div>
       <p id="share-msg" class="small" aria-live="polite"></p>
-      <input type="text" id="share-url" class="share-url" readonly hidden aria-label="Share link">
+      <input type="text" id="share-url" readonly hidden aria-label="Share link">
       <p class="small">Your list, conditions, and history are stored only in this browser (localStorage, key <code>toban_group</code>) and are never sent anywhere.</p>
       <div class="btn-row">
         <button type="button" id="backup-export" class="btn">Save to file</button>
