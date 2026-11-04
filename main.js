@@ -150,6 +150,7 @@
     bar.set(T.bar);
     summaries();
     save();
+    window.yzUsed?.();
   }
 
   function renderNotes(notes) {

@@ -93,7 +93,7 @@
   }
 
   function flatCells(menu) { return [].concat.apply([], menu.weeks); }
-  function update() { render(); save(); }
+  function update() { render(); save(); window.yzUsed?.(); }
   $('dishes').addEventListener('input', function () { st.dishes = $('dishes').value.slice(0, 4000); update(); });
   $('start').addEventListener('change', function () { if (C.parseYmd($('start').value)) { st.start = $('start').value; update(); } });
   $('weeks').addEventListener('change', function () { st.weeks = Number($('weeks').value); update(); });

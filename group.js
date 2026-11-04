@@ -131,6 +131,7 @@
     buildPrint();
     bar.set(T.barGroups(res.groups.length));
     save();
+    window.yzUsed?.();
   }
   function save() { if (!sharedMode) store.set('group', state); }
 
