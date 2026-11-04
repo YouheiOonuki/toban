@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Group Generator: Rules, How Groups Are Made, FAQ | yorozu-craft</title>
+  <meta name="description" content="How to use the Random Group Generator: balance gender, spread ★ people, keep people apart or together, avoid last time's groups. How groups are made, FAQ and your data.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yorozu-craft.com/toban/en/guide.html">
+  <link rel="alternate" hreflang="ja" href="https://yorozu-craft.com/toban/guide.html">
+  <link rel="alternate" hreflang="en" href="https://yorozu-craft.com/toban/en/guide.html">
+  <link rel="alternate" hreflang="x-default" href="https://yorozu-craft.com/toban/guide.html">
+
+  <meta property="og:title" content="Random Group Generator: rules and how groups are made | yorozu-craft">
+  <meta property="og:description" content="How to use the Random Group Generator: balance gender, spread ★ people, keep people apart or together, avoid last time's groups. How groups are made, FAQ and your data.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://yorozu-craft.com/toban/en/guide.html">
+  <meta property="og:site_name" content="yorozu-craft">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:image" content="https://yorozu-craft.com/toban/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- FAQ (keep in sync with #faq below) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I balance boys and girls in random groups?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Add \", M\" or \", F\" to each name and turn on \"Balance gender\". The number of males in each group then differs by one at most, and the same for females. If they cannot be balanced, the tool shows the counts for each group." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I keep people out of the same group as last time?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Save the groups with \"Use these groups\". Next time, turn on \"Avoid last time's groupmates\". After meeting the other rules, the tool keeps as few pairs from last time together as it can (sometimes not zero)." }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト） -->
+  <meta name="google-adsense-account" content="ca-pub-5375267956079717">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
+     crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <p class="lang-switch"><a href="../guide.html" hreflang="ja" lang="ja">日本語</a></p>
+
+  <header class="app-header">
+    <h1>Random Group Generator: rules and how to use it</h1>
+    <p class="subtitle">How to use it, how groups are made, FAQ and notes</p>
+  </header>
+
+  <main class="app-main">
+
+    <p class="card center"><a href="./">▶ Make groups</a></p>
+
+    <article class="card content" id="group">
+      <h2>Group rules</h2>
+      <p>Paste a list and choose the number of groups or people per group. The groups appear right away. Group sizes differ by one person at most.</p>
+      <ul>
+        <li><strong>Balance gender</strong>: add ", M" or ", F" after a name. The number of males in each group differs by one at most, and the same for females</li>
+        <li><strong>Spread ★ people</strong>: add ★ to leader candidates and others. The number of ★ people in each group differs by one at most</li>
+        <li><strong>Keep apart, keep together</strong>: one set per line. Everyone on a line goes to a different group (or the same group)</li>
+        <li><strong>Avoid last time's groups</strong>: uses the newest groups you saved with "Use these groups"</li>
+      </ul>
+      <p>If a rule cannot be met, the tool names it, for example "Alex and Blake are both in Group 2 (keep apart)."</p>
+    </article>
+
+    <article class="card content" id="how">
+      <h2>How groups are made</h2>
+      <p>The tool puts the rules first. The same draw number and the same input give the same groups every time.</p>
+      <details>
+        <summary>The steps</summary>
+        <p>People in a "keep together" set become one block. Blocks go into groups with free places, largest block first. The tool then tries many random swaps of blocks and keeps the order that breaks fewer rules (simulated annealing). Once every rule is met, it reduces pairs who were in the same group last time. The number of tries is set by the number of people; it does not stop on a timer.</p>
+      </details>
+    </article>
+
+    <article class="card content" id="faq">
+      <h2>Frequently asked questions</h2>
+      <dl class="faq">
+        <dt>How do I balance boys and girls in random groups?</dt>
+        <dd>Add ", M" or ", F" to each name and turn on "Balance gender". The number of males in each group then differs by one at most, and the same for females. If they cannot be balanced, the tool shows the counts for each group.</dd>
+        <dt>How do I keep people out of the same group as last time?</dt>
+        <dd>Save the groups with "Use these groups". Next time, turn on "Avoid last time's groupmates". After meeting the other rules, the tool keeps as few pairs from last time together as it can (sometimes not zero).</dd>
+      </dl>
+    </article>
+
+    <article class="card content" id="notes">
+      <h2>Notes and your data</h2>
+      <ul>
+        <li><strong>Saved data</strong>: your input is stored only in this browser (localStorage, key <code>toban_group</code>) and is not sent anywhere. Save to a file, load from a file, or delete it with the buttons on the page</li>
+        <li><strong>Share links</strong>: by default, names are left out and people appear as numbers. If you include names, anyone who gets the link (including by forwarding) can read them. They go after the "#" in the link, so they are not sent to a server</li>
+        <li><strong>Results</strong>: groups come from a random draw and fixed steps. For people who need care, set rules for them, then have a person check the final groups</li>
+      </ul>
+      <p><a href="/post/?from=/toban/en/guide.html">Feedback box</a> (in Japanese; you can write in English). We fix things based on what you send. We do not reply.</p>
+      <p>The site-wide <a href="../../en/about.html">about page and disclaimer</a> and <a href="../../en/privacy-policy.html">privacy policy</a> apply to all tools.</p>
+    </article>
+
+    <p class="small translation-note">This is an English translation of the <a href="../guide.html" hreflang="ja">Japanese page</a>. If the two differ, the Japanese version prevails.</p>
+  </main>
+
+  <footer class="app-footer">
+    <nav class="footer-nav" aria-label="Footer">
+      <ul>
+        <li><a href="../../en/">yorozu-craft (English)</a></li>
+        <li><a href="./">Random Group Generator</a></li>
+        <li><a href="./guide.html" aria-current="page">Guide and FAQ</a></li>
+        <li><a href="../../en/about.html">About</a></li>
+        <li><a href="../../en/privacy-policy.html">Privacy Policy</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
+  </footer>
+
+  <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
