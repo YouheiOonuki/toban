@@ -768,6 +768,14 @@
       counts: o.counts === undefined ? true : !!o.counts,
     };
   }
+  // 保存が空（無い・人も当番も空）で開いたときの入力。班と当番が入った状態で開き、表を出す（Q-339。先例は sekigae の Q-307）。
+  // 1班〜6班は「この班で当番表を作る」（#han=6）と同じ書き方。保存に人か当番があれば、保存のまま返す（入れた値を上書きしない）
+  var FIRST_DUTY = { people: '1班\n2班\n3班\n4班\n5班\n6班', duties: '日直\n給食 2' };
+  function firstDuty(saved) {
+    var d = normalizeDuty(saved);
+    if (!d.people.trim() && !d.duties.trim()) { d.people = FIRST_DUTY.people; d.duties = FIRST_DUTY.duties; }
+    return d;
+  }
   function normalizeGroupsList(gs) {
     return (Array.isArray(gs) ? gs : []).slice(0, LIMITS.groups).map(function (g) {
       return (Array.isArray(g) ? g : []).slice(0, LIMITS.people).map(function (n) { return line1(n, LIMITS.nameLen); }).filter(Boolean);
@@ -843,7 +851,7 @@
     assignMin: assignMin, monthEnd: monthEnd, parseYmd: parseYmd, ymd: ymd,
     encodeGroupShare: encodeGroupShare, decodeGroupShare: decodeGroupShare,
     encodeDutyShare: encodeDutyShare, decodeDutyShare: decodeDutyShare,
-    normalizeDuty: normalizeDuty, normalizeDutySettings: normalizeDutySettings, normalizeGroup: normalizeGroup, addHistory: addHistory,
+    normalizeDuty: normalizeDuty, firstDuty: firstDuty, normalizeDutySettings: normalizeDutySettings, normalizeGroup: normalizeGroup, addHistory: addHistory,
     backupFileName: backupFileName, buildBackup: buildBackup, parseBackup: parseBackup,
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

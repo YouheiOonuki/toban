@@ -273,7 +273,7 @@
   // --- 読み込み時: 共有リンク（#s=）／グループ分けからの班（#han=N）／保存 ---
   var hash = location.hash;
   var fromShare = /^#s=/.test(hash) ? C.decodeDutyShare(hash) : null;
-  apply(store.get('duty', {}));
+  apply(fromShare || /^#han=/.test(hash) ? store.get('duty', {}) : C.firstDuty(store.get('duty', null)));
   if (!state.settings.start) {
     var today = localYmd(new Date());
     el.start.value = today; el.end.value = C.monthEnd(today);

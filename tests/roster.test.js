@@ -206,3 +206,26 @@ test('名簿の長い 1 行で固まらない（K191 段 2: 正規表現の 3 �
   assert.equal(by['山田太郎'].star, true);
   assert.equal(by['佐藤花子'].g, 'F');
 });
+
+test('保存が空で開いたとき: 1班〜6班と「日直」「給食 2」が入り、表が出る（Q-339）', () => {
+  for (const saved of [null, undefined, {}, { people: '', duties: '  ' }]) {
+    const d = C.firstDuty(saved);
+    assert.equal(d.people, '1班\n2班\n3班\n4班\n5班\n6班');
+    assert.equal(d.duties, '日直\n給食 2');
+  }
+  const d = C.firstDuty(null);
+  const names = C.parsePeople(d.people).people.map((p) => p.name);
+  const duties = C.parseDuties(d.duties).duties;
+  assert.deepEqual(duties, [{ name: '日直', k: 1 }, { name: '給食', k: 2 }]);
+  const rr = rows('2026-12-01', '2026-12-31');
+  const res = C.makeRoster({ people: names, duties, rows: rr.rows, order: 'turn', unavail: {} }, 1);
+  assert.ok(res.table.length > 0);
+  assert.equal(res.empty.length, 0);
+});
+
+test('保存があるとき: 人か当番が入っていれば保存のまま（Q-339）', () => {
+  const saved = { people: '佐藤\n鈴木', duties: '', unavail: '佐藤: 水', seed: 9, settings: { start: '2026-12-01', end: '2026-12-31', unit: 'week' } };
+  const d = C.firstDuty(saved);
+  assert.deepEqual(d, C.normalizeDuty(saved));
+  assert.equal(C.firstDuty({ people: '', duties: '掃除' }).people, '');
+});
