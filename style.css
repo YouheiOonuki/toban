@@ -103,11 +103,12 @@ fieldset.plain { border: none; min-width: 0; }
 .hint { font-size: var(--fs-s); color: var(--muted); margin-bottom: var(--sp-2); }
 .center { text-align: center; }
 .check { display: flex; align-items: center; gap: var(--sp-2); min-height: var(--tap); cursor: pointer; }
-.check input { width: 1.15rem; height: 1.15rem; flex: none; accent-color: var(--accent); }
-.seg { display: flex; flex-wrap: wrap; gap: 0 var(--sp-4); }
+.check input { width: var(--tap); height: var(--tap); margin: 0; vertical-align: middle; flex: none; accent-color: var(--accent); }   /* 押す所は 44px（Q-469） */
+.check + .check, .days + .check { margin-top: var(--sp-2); }   /* 縦に並んだチェックの間 8px（Q-469） */
+.seg { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4); }
 .seg label { display: flex; align-items: center; gap: var(--sp-2); min-height: var(--tap); font-weight: 400; cursor: pointer; }
-.seg input { accent-color: var(--accent); width: 1.1rem; height: 1.1rem; }
-.days { display: flex; flex-wrap: wrap; gap: 0 var(--sp-2); }
+.seg input { accent-color: var(--accent); width: var(--tap); height: var(--tap); margin: 0; }   /* 押す所は 44px（Q-469） */
+.days { display: flex; flex-wrap: wrap; gap: var(--sp-2); }   /* 折れた行の間も 8px（Q-469） */
 .days .check { min-width: 3rem; }
 .inline { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--sp-3); }
 .inline .field { margin-bottom: var(--sp-3); }
@@ -138,8 +139,8 @@ fieldset.plain { border: none; min-width: 0; }
   border-top: 1px solid var(--border);
   margin-top: var(--sp-2);
 }
-.footer-nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 0 1.1rem; margin-bottom: var(--sp-2); }
-.footer-nav a { display: inline-flex; align-items: center; min-height: var(--tap); color: var(--muted); text-decoration: none; }
+.footer-nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: var(--sp-2) 1.1rem; margin-bottom: var(--sp-2); }   /* 折れた行の間 8px（Q-469） */
+.footer-nav a { display: inline-flex; align-items: center; justify-content: center; min-height: var(--tap); min-width: var(--tap); color: var(--muted); text-decoration: none; }
 .footer-nav a:hover, .footer-nav a[aria-current="page"] { color: var(--accent); }
 .lang-switch { text-align: right; max-width: 680px; margin: var(--sp-1) auto 0; padding: 0 var(--sp-4); }
 .lang-switch a { display: inline-flex; align-items: center; min-height: var(--tap); }
