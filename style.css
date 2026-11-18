@@ -203,12 +203,13 @@ table.roster tbody th { text-align: left; }
 .group li .g { font-size: var(--fs-s); color: var(--muted); margin-left: var(--sp-1); }
 .group.bad { border-top: 4px solid var(--error); }
 
-/* 印刷するもの: 画面では出さない。印刷では、これだけを出す（紙は白地に黒） */
+/* 印刷するもの: 画面では出さない。印刷では、print-area を持つページ（当番表・班分け・献立の紙）だけ、これだけを出す（紙は白地に黒）。
+   使い方などの print-area を持たないページは、本文がそのまま紙に出る（Q-444: 全ページで本文を隠して白紙になっていた） */
 .print-area { display: none; }
 @media print {
   @page { size: A4 portrait; margin: 12mm; }
   body { background: #fff; color: #000; }
-  body > *:not(.print-area) { display: none !important; }
+  body:has(> .print-area) > *:not(.print-area) { display: none !important; }
   .print-area { display: block; }
   .sheet { color: #000; }
   .p-title { font-size: 20pt; text-align: center; margin: 0 0 2mm; }
