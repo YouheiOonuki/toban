@@ -50,7 +50,7 @@
       sizeBroken: function (n) { return '班の人数がそろいませんでした（' + n.sizes.join('・') + ' 人）。「同じ班」の組を見直してください。'; },
       notKept: '守れなかった条件があります。条件を減らすか、班の数を変えてください。',
       seed: function (s) { return 'くじ番号 ' + s; },
-      decided: '記録しました。次に「前回と同じ班を避ける」で使います。',
+      decided: '記録しました。次に「前回と同じ班だった人を、なるべく別の班に」で使います。',
       historyItem: function (h) { return h.at + '（' + h.groups.length + ' 班）'; },
       historyNone: 'まだありません。',
       prevInfo: function (h) { return h ? '前回: ' + h.at + ' の ' + h.groups.length + ' 班' : '「この班で決定」を押すと、次から使えます。'; },
@@ -60,7 +60,7 @@
         if (c.star) a.push('★');
         if (c.apart) a.push('別の班 ' + c.apart + ' 組');
         if (c.together) a.push('同じ班 ' + c.together + ' 組');
-        if (c.avoidPrev) a.push('前回を避ける');
+        if (c.avoidPrev) a.push('前回と同じ班だった人を、なるべく別の班に');
         return a.length ? a.join('・') : 'なし';
       },
       barGroups: function (n) { return n + ' 班を印刷する'; },
