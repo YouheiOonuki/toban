@@ -132,7 +132,7 @@
     f.text().then(function (t) {
       var r = C.parseBackup(t, 'toban', ['toban_kondate']);
       if (!r.ok) { $('backup-msg').textContent = r.error; return; }
-      if (!window.confirm('ファイルの内容で、いまの料理と設定を上書きしますか？')) return;
+      if (!window.confirm('ファイルの内容で、いまの料理と設定を置き換えますか？')) return;
       st = K.normalize(r.data.toban_kondate, new Date());
       sync(); update();
       $('backup-msg').textContent = 'ファイルから読み込みました。';
