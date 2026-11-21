@@ -1,0 +1,15 @@
+{
+  "src": "reset-storage.js",
+  "prefixes": [
+    "toban_"
+  ],
+  "legacy": [],
+  "pagePrefixes": {
+    "kondate/index.html": [
+      "toban_kondate"
+    ]
+  },
+  "pageLegacy": {},
+  "inline": [],
+  "skipDirs": []
+}
