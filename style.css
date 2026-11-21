@@ -129,6 +129,8 @@ fieldset.plain { border: none; min-width: 0; }
 .faq dd { color: var(--muted); padding: var(--sp-1) 0 var(--sp-2) 1.2rem; border-bottom: 1px solid var(--border); }
 .small { font-size: var(--fs-s); color: var(--muted); margin-top: var(--sp-2); }
 .small a, .center a { display: inline-flex; align-items: center; min-height: var(--tap); }
+/* 使い方の「出典の URL」の折りたたみ。URL がそのままリンクの字なので、320 幅で折り返す（Q-728: 開いた時に +70 px あふれた） */
+#notes details a { overflow-wrap: anywhere; }
 
 /* フッター */
 .app-footer {
