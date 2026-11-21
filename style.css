@@ -187,6 +187,7 @@ details.card.opt[open] > summary { border-bottom: 1px solid var(--border); margi
 .notes li.bad { color: var(--error); font-weight: 700; }
 .notes li.bad::before { content: '！'; }
 .next-step { margin-top: var(--sp-3); }
+.next-step a { display: inline-flex; align-items: center; min-height: 44px; }
 .table-scroll { overflow-x: auto; margin: var(--sp-3) 0; }
 table.roster { border-collapse: collapse; min-width: 100%; }
 table.roster th, table.roster td { border: 1px solid var(--border); padding: var(--sp-1) var(--sp-2); text-align: center; white-space: nowrap; }
