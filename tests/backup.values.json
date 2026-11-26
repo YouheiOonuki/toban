@@ -1,0 +1,57 @@
+{
+  "module": "calc.js",
+  "tool": "toban",
+  "data": {
+    "duty": {
+      "people": "青木\n井上",
+      "duties": "日直",
+      "unavail": "",
+      "settings": {
+        "start": "",
+        "end": "",
+        "unit": "day",
+        "days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "skipHolidays": true,
+        "order": "turn",
+        "title": ""
+      },
+      "seed": 0,
+      "credit": true,
+      "counts": true
+    },
+    "group": {
+      "people": "青木,男",
+      "numbers": false,
+      "count": 30,
+      "by": "count",
+      "n": 6,
+      "gender": false,
+      "star": false,
+      "apart": "",
+      "together": "",
+      "avoidPrev": false,
+      "seed": 0,
+      "title": "",
+      "credit": true,
+      "history": [
+        {
+          "at": "x",
+          "groups": [
+            [
+              "青木"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "duty"
+  ]
+}
