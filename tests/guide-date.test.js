@@ -74,10 +74,10 @@ function el() {
 function runScript(h, valuesFile, checked) {
   const body = [...h.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1]).find((s) => /\bCHECKED\b/.test(s));
   assert.ok(body, 'CHECKED を描く script が無い');
-  const byId = {};
+  const byId = {}, other = {};   // 確認日を描く先（空の <time id>）と、script が触るそのほかの要素
   for (const m of h.matchAll(/<time datetime="" id="([^"]+)"><\/time>/g)) byId[m[1]] = el();
   const document = {
-    getElementById: (id) => byId[id] || null,
+    getElementById: (id) => byId[id] || (other[id] ||= el()),
     querySelector: () => el(),
     createElement: () => el(),
     createTextNode: (t) => ({ textContent: t }),
