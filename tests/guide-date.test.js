@@ -1,7 +1,8 @@
 // 使い方などのページに書いた「最終確認日」が、その日付の元の値（constants.js の CHECKED など）と同じか（yorozu-plans ROADMAP 7.256 の 3・7.271、D668）。
 // 正本は youheioonuki.github.io の tools/common/guide-date.test.js。このファイルは repo の値を持たない。
 // repo の値は、同じフォルダの guide-date.values.json だけが持つ:
-//   html     … 日付を HTML に手で書いたページ → 元の値。"ファイル#名前.名前"（repo の最上位から。require で読む）。
+//   html     … 日付を HTML に手で書いたページ → 元の値。"ファイル#名前.名前"（repo の最上位から。require で読む）か、
+//              "ファイル#oldest:名前"（値の木の中のその名前の日付のうち、いちばん古いもの）。
 //              1 つなら、ページの中の日付が全部その値。配列なら、ページの中の順に 1 つずつ
 //   drawn    … 日付を HTML に持たず、ページの script が値から描くページ → { "src": "<script src> の値", "values": "値のファイル", "ids": ["描く先の id"] }
 //   notTied  … 日付を書いているが、値のファイルに相手が無いページ → 理由
@@ -21,14 +22,25 @@ const read = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
 const ISO = /^\d{4}-\d{2}-\d{2}$/;
 // 今日は日本時間で数える（UTC だと 0〜9 時に当日の確認日で落ちる）
 const today = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
-// テンプレートのまま（tools/init.mjs が在り、CHECKED が作った日の仮の値）なら、描く確かめは仮の日付で動かす
-const TEMPLATE_DATE = '2026-11-22';
+// テンプレートのまま（tools/init.mjs が在り、CHECKED が置き換える前の印か、作った日の仮の値）なら、描く確かめは仮の日付で動かす
+const TEMPLATE_DATES = ['__DATE__', '2026-11-22'];
 const IS_TEMPLATE = fs.existsSync(path.join(ROOT, 'tools', 'init.mjs'));
 
-// "ファイル#名前.名前" の値
+// "ファイル#名前.名前" の値。"ファイル#oldest:名前" は、値の木の中のその名前の日付のうち、いちばん古いもの
 function valueOf(ref) {
   const [file, keys = 'CHECKED'] = ref.split('#');
-  return keys.split('.').reduce((o, k) => (o == null ? o : o[k]), require(path.join(ROOT, file)));
+  const tree = require(path.join(ROOT, file));
+  const oldest = /^oldest:(\w+)$/.exec(keys);
+  if (oldest) {
+    const cs = [];
+    (function walk(o) {
+      if (!o || typeof o !== 'object') return;
+      if (typeof o[oldest[1]] === 'string') cs.push(o[oldest[1]]);
+      Object.values(o).forEach(walk);
+    })(tree);
+    return cs.sort()[0];
+  }
+  return keys.split('.').reduce((o, k) => (o == null ? o : o[k]), tree);
 }
 
 const pad = (n) => String(n).padStart(2, '0');
@@ -71,7 +83,7 @@ function el() {
     setAttribute(k, v) { this[k] = v; },
   };
 }
-function runScript(h, valuesFile, checked) {
+function runScript(h, valuesFile, from, to) {
   const body = [...h.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1]).find((s) => /\bCHECKED\b/.test(s));
   assert.ok(body, 'CHECKED を描く script が無い');
   const byId = {}, other = {};   // 確認日を描く先（空の <time id>）と、script が触るそのほかの要素
@@ -85,7 +97,7 @@ function runScript(h, valuesFile, checked) {
   const window = {};
   const ctx = vm.createContext({ window, document });
   let src = read(valuesFile);
-  if (checked !== undefined) src = src.replace(`'${TEMPLATE_DATE}'`, `'${checked}'`);
+  if (from !== undefined) src = src.replace(`'${from}'`, `'${to}'`);
   vm.runInContext(src, Object.assign(ctx, { module: undefined }));
   window.Constants = ctx.Constants; // 値のファイルは this に Constants を置く（ブラウザでは window）
   vm.runInContext(body, ctx);
@@ -144,13 +156,13 @@ for (const [p, { src, values, ids }] of Object.entries(drawn)) {
     assert.deepEqual(datesIn(h).map((x) => x.shown), [], `${p} に手で書いた日付が在る`);
     assert.ok(h.includes(`<script src="${src}"></script>`), `${p} が ${src} を読み込んでいない`);
     const real = valueOf(`${values}#CHECKED`);
-    const asTemplate = IS_TEMPLATE && real === TEMPLATE_DATE;
+    const asTemplate = IS_TEMPLATE && TEMPLATE_DATES.includes(real);
     if (!asTemplate) {
       assert.match(real, ISO);
       assert.ok(real <= today(), `${real} が今日 ${today()} より先`);
     }
     const checked = asTemplate ? '2000-01-02' : real;
-    const got = runScript(h, values, asTemplate ? checked : undefined);
+    const got = asTemplate ? runScript(h, values, real, checked) : runScript(h, values);
     assert.deepEqual(Object.keys(got).sort(), [...ids].sort());
     const [y, m, d] = checked.split('-').map(Number);
     for (const id of ids) {
